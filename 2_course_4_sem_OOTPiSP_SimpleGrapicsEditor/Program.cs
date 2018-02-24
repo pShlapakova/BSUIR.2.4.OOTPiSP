@@ -16,7 +16,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }

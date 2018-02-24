@@ -1,6 +1,6 @@
 ﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,9 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(284, 265);
+            this.Name = "MainForm";
+            this.Text = "Simple Graphics Editor";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
