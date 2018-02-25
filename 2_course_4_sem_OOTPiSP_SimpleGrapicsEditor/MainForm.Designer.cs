@@ -30,9 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.DrawingFieldPictureBox = new System.Windows.Forms.PictureBox();
-            this.DrawButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.CurrentMousePositionTextBox = new System.Windows.Forms.TextBox();
+            this.DrawLineButton = new System.Windows.Forms.Button();
+            this.DrawRectangleButton = new System.Windows.Forms.Button();
+            this.DrawEllipseButton = new System.Windows.Forms.Button();
+            this.DrawCircleButton = new System.Windows.Forms.Button();
+            this.DrawArcButton = new System.Windows.Forms.Button();
+            this.DrawPieButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingFieldPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,17 +54,6 @@
             this.DrawingFieldPictureBox.TabStop = false;
             this.DrawingFieldPictureBox.MouseLeave += new System.EventHandler(this.DrawingFieldPictureBox_MouseLeave);
             this.DrawingFieldPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DrawingFieldPictureBox_MouseMove);
-            // 
-            // DrawButton
-            // 
-            this.DrawButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.DrawButton.Location = new System.Drawing.Point(832, 506);
-            this.DrawButton.Name = "DrawButton";
-            this.DrawButton.Size = new System.Drawing.Size(75, 23);
-            this.DrawButton.TabIndex = 1;
-            this.DrawButton.Text = "Draw";
-            this.DrawButton.UseVisualStyleBackColor = true;
-            this.DrawButton.Click += new System.EventHandler(this.DrawButton_Click);
             // 
             // ClearButton
             // 
@@ -82,19 +76,95 @@
             this.CurrentMousePositionTextBox.Size = new System.Drawing.Size(75, 14);
             this.CurrentMousePositionTextBox.TabIndex = 3;
             // 
+            // DrawLineButton
+            // 
+            this.DrawLineButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawLineButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawLineButton.Image")));
+            this.DrawLineButton.Location = new System.Drawing.Point(839, 9);
+            this.DrawLineButton.Margin = new System.Windows.Forms.Padding(0);
+            this.DrawLineButton.Name = "DrawLineButton";
+            this.DrawLineButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawLineButton.TabIndex = 4;
+            this.DrawLineButton.UseVisualStyleBackColor = true;
+            this.DrawLineButton.Click += new System.EventHandler(this.DrawLineButton_Click);
+            // 
+            // DrawRectangleButton
+            // 
+            this.DrawRectangleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawRectangleButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawRectangleButton.Image")));
+            this.DrawRectangleButton.Location = new System.Drawing.Point(869, 9);
+            this.DrawRectangleButton.Margin = new System.Windows.Forms.Padding(0);
+            this.DrawRectangleButton.Name = "DrawRectangleButton";
+            this.DrawRectangleButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawRectangleButton.TabIndex = 5;
+            this.DrawRectangleButton.UseVisualStyleBackColor = true;
+            this.DrawRectangleButton.Click += new System.EventHandler(this.DrawRectangleButton_Click);
+            // 
+            // DrawEllipseButton
+            // 
+            this.DrawEllipseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawEllipseButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawEllipseButton.Image")));
+            this.DrawEllipseButton.Location = new System.Drawing.Point(839, 39);
+            this.DrawEllipseButton.Margin = new System.Windows.Forms.Padding(0);
+            this.DrawEllipseButton.Name = "DrawEllipseButton";
+            this.DrawEllipseButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawEllipseButton.TabIndex = 6;
+            this.DrawEllipseButton.UseVisualStyleBackColor = true;
+            this.DrawEllipseButton.Click += new System.EventHandler(this.DrawEllipseButton_Click);
+            // 
+            // DrawCircleButton
+            // 
+            this.DrawCircleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawCircleButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawCircleButton.Image")));
+            this.DrawCircleButton.Location = new System.Drawing.Point(869, 39);
+            this.DrawCircleButton.Margin = new System.Windows.Forms.Padding(0);
+            this.DrawCircleButton.Name = "DrawCircleButton";
+            this.DrawCircleButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawCircleButton.TabIndex = 7;
+            this.DrawCircleButton.UseVisualStyleBackColor = true;
+            this.DrawCircleButton.Click += new System.EventHandler(this.DrawCircleButton_Click);
+            // 
+            // DrawArcButton
+            // 
+            this.DrawArcButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawArcButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawArcButton.Image")));
+            this.DrawArcButton.Location = new System.Drawing.Point(839, 69);
+            this.DrawArcButton.Margin = new System.Windows.Forms.Padding(0);
+            this.DrawArcButton.Name = "DrawArcButton";
+            this.DrawArcButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawArcButton.TabIndex = 8;
+            this.DrawArcButton.UseVisualStyleBackColor = true;
+            this.DrawArcButton.Click += new System.EventHandler(this.DrawArcButton_Click);
+            // 
+            // DrawPieButton
+            // 
+            this.DrawPieButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawPieButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawPieButton.Image")));
+            this.DrawPieButton.Location = new System.Drawing.Point(869, 69);
+            this.DrawPieButton.Margin = new System.Windows.Forms.Padding(0);
+            this.DrawPieButton.Name = "DrawPieButton";
+            this.DrawPieButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawPieButton.TabIndex = 9;
+            this.DrawPieButton.UseVisualStyleBackColor = true;
+            this.DrawPieButton.Click += new System.EventHandler(this.DrawPieButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(919, 578);
+            this.Controls.Add(this.DrawPieButton);
+            this.Controls.Add(this.DrawArcButton);
+            this.Controls.Add(this.DrawCircleButton);
+            this.Controls.Add(this.DrawEllipseButton);
+            this.Controls.Add(this.DrawRectangleButton);
+            this.Controls.Add(this.DrawLineButton);
             this.Controls.Add(this.CurrentMousePositionTextBox);
             this.Controls.Add(this.ClearButton);
-            this.Controls.Add(this.DrawButton);
             this.Controls.Add(this.DrawingFieldPictureBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Simple Graphics Editor";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DrawingFieldPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -104,9 +174,14 @@
         #endregion
 
         private System.Windows.Forms.PictureBox DrawingFieldPictureBox;
-        private System.Windows.Forms.Button DrawButton;
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.TextBox CurrentMousePositionTextBox;
+        private System.Windows.Forms.Button DrawLineButton;
+        private System.Windows.Forms.Button DrawRectangleButton;
+        private System.Windows.Forms.Button DrawEllipseButton;
+        private System.Windows.Forms.Button DrawCircleButton;
+        private System.Windows.Forms.Button DrawArcButton;
+        private System.Windows.Forms.Button DrawPieButton;
     }
 }
 

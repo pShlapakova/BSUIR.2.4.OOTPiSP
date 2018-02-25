@@ -4,16 +4,16 @@ using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
-    class Shape
+    public abstract class Shape
     {
         //protected Control control;
         protected Graphics graphics;
         protected GraphicsPath graphicsPath = new GraphicsPath();
         protected Pen pen = new Pen(Color.Black, 1);
 
-        protected readonly int x, y;
+        protected readonly int x, y;        
 
-        public Shape(Control control, int x, int y, float penWidth, Color penColor, DashStyle penDashStyle)
+        protected Shape(Control control, int x, int y, float penWidth, Color penColor, DashStyle penDashStyle)
         {
             //this.control = control;
             graphics = control.CreateGraphics();

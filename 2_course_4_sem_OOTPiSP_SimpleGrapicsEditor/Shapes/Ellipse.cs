@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
-    class Ellipse : Shape
+    public class Ellipse : Shape
     {
         protected readonly int width, height;
 

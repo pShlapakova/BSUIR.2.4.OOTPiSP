@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
-    class Line : Shape
+    public class Line : Shape
     {
         protected readonly int x2, y2;
 

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
-    class Pie : Shape
+    public class Pie : Shape
     {
         protected readonly int width, height;
         protected readonly float startAngle, sweepAngle;
