@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
@@ -24,6 +25,21 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 
             this.x = x;
             this.y = y;
+        }
+
+        public GraphicsPath GetGraphicsPath
+        {
+            get { return graphicsPath; }
+        }
+
+        public Pen GetPen
+        {
+            get { return pen; }
+        }
+
+        public virtual void CreateShape()
+        {
+
         }
 
         public virtual void Draw()

@@ -1,8 +1,6 @@
-﻿using System.Drawing;
+﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Channels;
-using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
@@ -213,7 +211,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
                 Line nline = new Line(drawingFieldPictureBox, locationX, locationY, locationX2, locationY2, penWidth,
                     penColor, penDashStyle);
                 shape = nline;
-                shape.Draw();
+                shape.Draw();                
                 this.Close();
             };
             tempLine = shape as Line;            
@@ -250,7 +248,8 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
                 Circle ncircle = new Circle(drawingFieldPictureBox, locationX, locationY, radius, penWidth, penColor,
                     penDashStyle);
                 shape = ncircle;
-                shape.Draw();
+                //shape.Draw();
+                Test.DrawIt(ncircle, drawingFieldPictureBox);
                 this.Close();
             };
             tempCircle = shape as Circle;

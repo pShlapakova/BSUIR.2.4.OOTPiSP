@@ -16,6 +16,14 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             this.height = height;
         }
 
+        public override void CreateShape()
+        {
+            base.CreateShape();
+            graphicsPath.StartFigure();
+            graphicsPath.AddEllipse(x, y, width, height);
+            graphicsPath.CloseFigure();
+        }
+
         public override void Draw()
         {
             graphicsPath.StartFigure();
