@@ -38,6 +38,9 @@
             this.DrawCircleButton = new System.Windows.Forms.Button();
             this.DrawArcButton = new System.Windows.Forms.Button();
             this.DrawPieButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.DrawStarButton = new System.Windows.Forms.Button();
+            this.DrawSquareButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DrawingFieldPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -148,11 +151,46 @@
             this.DrawPieButton.UseVisualStyleBackColor = true;
             this.DrawPieButton.Click += new System.EventHandler(this.DrawPieButton_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(826, 143);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // DrawStarButton
+            // 
+            this.DrawStarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawStarButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawStarButton.Image")));
+            this.DrawStarButton.Location = new System.Drawing.Point(839, 99);
+            this.DrawStarButton.Name = "DrawStarButton";
+            this.DrawStarButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawStarButton.TabIndex = 11;
+            this.DrawStarButton.UseVisualStyleBackColor = true;
+            this.DrawStarButton.Click += new System.EventHandler(this.DrawStarButton_Click);
+            // 
+            // DrawSquareButton
+            // 
+            this.DrawSquareButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DrawSquareButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawSquareButton.Image")));
+            this.DrawSquareButton.Location = new System.Drawing.Point(869, 99);
+            this.DrawSquareButton.Name = "DrawSquareButton";
+            this.DrawSquareButton.Size = new System.Drawing.Size(30, 30);
+            this.DrawSquareButton.TabIndex = 12;
+            this.DrawSquareButton.UseVisualStyleBackColor = true;
+            this.DrawSquareButton.Click += new System.EventHandler(this.DrawSquareButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(919, 578);
+            this.Controls.Add(this.DrawSquareButton);
+            this.Controls.Add(this.DrawStarButton);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.DrawPieButton);
             this.Controls.Add(this.DrawArcButton);
             this.Controls.Add(this.DrawCircleButton);
@@ -182,6 +220,9 @@
         private System.Windows.Forms.Button DrawCircleButton;
         private System.Windows.Forms.Button DrawArcButton;
         private System.Windows.Forms.Button DrawPieButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button DrawStarButton;
+        private System.Windows.Forms.Button DrawSquareButton;
     }
 }
 

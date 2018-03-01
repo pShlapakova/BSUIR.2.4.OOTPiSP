@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
@@ -9,8 +8,8 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
         protected readonly int width, height;
         protected readonly float startAngle, sweepAngle;
 
-        public Pie(Control control, int x, int y, int width, int height, float startAngle, float sweepAngle,
-            float penWidth, Color penColor, DashStyle penDashStyle) : base(control, x, y, penWidth, penColor,
+        public Pie(int x, int y, int width, int height, float startAngle, float sweepAngle,
+            float penWidth, Color penColor, DashStyle penDashStyle) : base(x, y, penWidth, penColor,
             penDashStyle)
         {
             this.width = width;
@@ -19,12 +18,12 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             this.sweepAngle = sweepAngle;
         }
 
-        public override void Draw()
+        public override void CreateShape()
         {
             graphicsPath.StartFigure();
             graphicsPath.AddPie(x, y, width, height, startAngle, sweepAngle);
             graphicsPath.CloseFigure();
-            base.Draw();
         }
+
     }
 }

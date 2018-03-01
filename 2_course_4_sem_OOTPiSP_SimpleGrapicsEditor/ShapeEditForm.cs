@@ -29,6 +29,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         private int locationX = 0;
         private int locationY = 0;
         private int radius = 0;
+        private int length = 0;
         private int locationX2 = 0;
         private int locationY2 = 0;
         private int width = 0;
@@ -208,10 +209,11 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
             DrawButton.Click += (sender, args) =>
             {
-                Line nline = new Line(drawingFieldPictureBox, locationX, locationY, locationX2, locationY2, penWidth,
+                Line nline = new Line(locationX, locationY, locationX2, locationY2, penWidth,
                     penColor, penDashStyle);
                 shape = nline;
-                shape.Draw();                
+                DrawingTools.Draw(nline, drawingFieldPictureBox);
+
                 this.Close();
             };
             tempLine = shape as Line;            
@@ -230,7 +232,8 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             NumericUpDown RadiusNumericUpDown = new NumericUpDown();
             RadiusNumericUpDown.Location = new Point(InteractiveControlLeftMargin, RadiusLabel.Location.Y);
             RadiusNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            RadiusNumericUpDown.Value = radius;                        
+            RadiusNumericUpDown.Value = radius;
+            RadiusNumericUpDown.Maximum = 10000;
             Controls.Add(RadiusNumericUpDown);
 
             RadiusNumericUpDown.ValueChanged += (sender, args) => radius = (int) RadiusNumericUpDown.Value;
@@ -245,14 +248,89 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
             DrawButton.Click += (sender, args) =>
             {
-                Circle ncircle = new Circle(drawingFieldPictureBox, locationX, locationY, radius, penWidth, penColor,
+                Circle ncircle = new Circle(locationX, locationY, radius, penWidth, penColor,
                     penDashStyle);
-                shape = ncircle;
-                //shape.Draw();
-                Test.DrawIt(ncircle, drawingFieldPictureBox);
+                shape = ncircle;                
+                DrawingTools.Draw(ncircle, drawingFieldPictureBox);
                 this.Close();
             };
             tempCircle = shape as Circle;
+        }
+
+        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Star tempStar) : this()
+        {
+            #region Radius
+
+            Label RadiusLabel = new Label();
+            RadiusLabel.Location = new Point(LabelLeftMargin, LocationLabel.Location.Y + ControlsIndent);
+            RadiusLabel.AutoSize = true;
+            RadiusLabel.Text = "Radius:";
+            Controls.Add(RadiusLabel);
+
+            NumericUpDown RadiusNumericUpDown = new NumericUpDown();
+            RadiusNumericUpDown.Location = new Point(InteractiveControlLeftMargin, RadiusLabel.Location.Y);
+            RadiusNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
+            RadiusNumericUpDown.Value = radius;
+            RadiusNumericUpDown.Maximum = 10000;
+            Controls.Add(RadiusNumericUpDown);
+
+            RadiusNumericUpDown.ValueChanged += (sender, args) => radius = (int)RadiusNumericUpDown.Value;
+
+            #endregion
+
+            DrawButton.Location = new Point(this.Size.Width / 2 - DrawButton.Size.Width / 2, RadiusLabel.Location.Y + ControlsIndent);
+            DrawButton.Text = "Draw";
+            Controls.Add(DrawButton);
+
+            this.Size = new Size(this.Size.Width, DrawButton.Location.Y + DrawButton.Size.Height + ButtonBottomMargin);
+
+            DrawButton.Click += (sender, args) =>
+            {
+                Star nstar = new Star(locationX, locationY, radius, penWidth, penColor,
+                    penDashStyle);
+                shape = nstar;                
+                DrawingTools.Draw(nstar, drawingFieldPictureBox);
+                this.Close();
+            };
+            tempStar = shape as Star;
+        }
+
+        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Square tempSquare) : this()
+        {
+            #region Length
+
+            Label LengthLabel = new Label();
+            LengthLabel.Location = new Point(LabelLeftMargin, LocationLabel.Location.Y + ControlsIndent);
+            LengthLabel.AutoSize = true;
+            LengthLabel.Text = "Length:";
+            Controls.Add(LengthLabel);
+
+            NumericUpDown LengthNumericUpDown = new NumericUpDown();
+            LengthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, LengthLabel.Location.Y);
+            LengthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
+            LengthNumericUpDown.Value = length;
+            LengthNumericUpDown.Maximum = 10000;
+            Controls.Add(LengthNumericUpDown);
+
+            LengthNumericUpDown.ValueChanged += (sender, args) => length = (int)LengthNumericUpDown.Value;
+
+            #endregion
+
+            DrawButton.Location = new Point(this.Size.Width / 2 - DrawButton.Size.Width / 2, LengthLabel.Location.Y + ControlsIndent);
+            DrawButton.Text = "Draw";
+            Controls.Add(DrawButton);
+
+            this.Size = new Size(this.Size.Width, DrawButton.Location.Y + DrawButton.Size.Height + ButtonBottomMargin);
+
+            DrawButton.Click += (sender, args) =>
+            {
+                Square nsquare = new Square(locationX, locationY, length, penWidth, penColor,
+                    penDashStyle);
+                shape = nsquare;                
+                DrawingTools.Draw(nsquare, drawingFieldPictureBox);
+                this.Close();
+            };
+            tempSquare = shape as Square;
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Shapes.Rectangle tempRectangle) : this()
@@ -269,6 +347,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             WidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, WidthHeightLabel.Location.Y);
             WidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             WidthNumericUpDown.Value = width;
+            WidthNumericUpDown.Maximum = 10000;
             Controls.Add(WidthNumericUpDown);
 
             WidthNumericUpDown.ValueChanged += (sender, args) => width = (int) WidthNumericUpDown.Value;
@@ -277,6 +356,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             HeightNumericUpDown.Location = new Point(InteractiveControlLeftMargin + WidthNumericUpDown.Size.Width, WidthHeightLabel.Location.Y);
             HeightNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             HeightNumericUpDown.Value = height;
+            HeightNumericUpDown.Maximum = 10000;
             Controls.Add(HeightNumericUpDown);
 
             HeightNumericUpDown.ValueChanged += (sender, args) => height = (int) HeightNumericUpDown.Value;
@@ -291,10 +371,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
             DrawButton.Click += (sender, args) =>
             {
-                Shapes.Rectangle nrectangle = new Shapes.Rectangle(drawingFieldPictureBox, locationX, locationY, width,
+                Shapes.Rectangle nrectangle = new Shapes.Rectangle(locationX, locationY, width,
                     height, penWidth, penColor, penDashStyle);
                 shape = nrectangle;
-                shape.Draw();
+                DrawingTools.Draw(nrectangle, drawingFieldPictureBox);
                 this.Close();
             };
             tempRectangle = shape as Shapes.Rectangle;
@@ -314,6 +394,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             WidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, WidthHeightLabel.Location.Y);
             WidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             WidthNumericUpDown.Value = width;
+            WidthNumericUpDown.Maximum = 10000;
             Controls.Add(WidthNumericUpDown);
 
             WidthNumericUpDown.ValueChanged += (sender, args) => width = (int)WidthNumericUpDown.Value;
@@ -322,6 +403,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             HeightNumericUpDown.Location = new Point(InteractiveControlLeftMargin + WidthNumericUpDown.Size.Width, WidthHeightLabel.Location.Y);
             HeightNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             HeightNumericUpDown.Value = height;
+            HeightNumericUpDown.Maximum = 10000;
             Controls.Add(HeightNumericUpDown);
 
             HeightNumericUpDown.ValueChanged += (sender, args) => height = (int)HeightNumericUpDown.Value;
@@ -336,10 +418,11 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
             DrawButton.Click += (sender, args) =>
             {
-                Ellipse nellipse = new Ellipse(drawingFieldPictureBox, locationX, locationY, width, height, penWidth,
+                Ellipse nellipse = new Ellipse(locationX, locationY, width, height, penWidth,
                     penColor, penDashStyle);
                 shape = nellipse;
-                shape.Draw();
+                //shape.Draw();
+                DrawingTools.Draw(nellipse, drawingFieldPictureBox);
                 this.Close();
             };
             tempEllipse = shape as Ellipse;
@@ -359,6 +442,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             WidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, WidthHeightLabel.Location.Y);
             WidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             WidthNumericUpDown.Value = width;
+            WidthNumericUpDown.Maximum = 10000;
             Controls.Add(WidthNumericUpDown);
 
             WidthNumericUpDown.ValueChanged += (sender, args) => width = (int)WidthNumericUpDown.Value;
@@ -367,6 +451,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             HeightNumericUpDown.Location = new Point(InteractiveControlLeftMargin + WidthNumericUpDown.Size.Width, WidthHeightLabel.Location.Y);
             HeightNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             HeightNumericUpDown.Value = height;
+            HeightNumericUpDown.Maximum = 10000;
             Controls.Add(HeightNumericUpDown);
 
             HeightNumericUpDown.ValueChanged += (sender, args) => height = (int)HeightNumericUpDown.Value;
@@ -385,6 +470,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             StartAngleNumericUpDown.Location = new Point(InteractiveControlLeftMargin, StartAngleLabel.Location.Y);
             StartAngleNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             StartAngleNumericUpDown.Value = (decimal)startAngle;
+            StartAngleNumericUpDown.Maximum = 10000;
             Controls.Add(StartAngleNumericUpDown);
 
             StartAngleNumericUpDown.ValueChanged += (sender, args) => startAngle = (int) StartAngleNumericUpDown.Value;            
@@ -399,6 +485,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             SweepAngleNumericUpDown.Location = new Point(InteractiveControlLeftMargin, SweepAngleLabel.Location.Y);
             SweepAngleNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             SweepAngleNumericUpDown.Value = (decimal)sweepAngle;
+            SweepAngleNumericUpDown.Maximum = 10000;
             Controls.Add(SweepAngleNumericUpDown);
 
             SweepAngleNumericUpDown.ValueChanged += (sender, args) => sweepAngle = (int) SweepAngleNumericUpDown.Value;
@@ -413,10 +500,11 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
             DrawButton.Click += (sender, args) =>
             {
-                Arc narc = new Arc(drawingFieldPictureBox, locationX, locationY, width, height, startAngle, sweepAngle,
+                Arc narc = new Arc(locationX, locationY, width, height, startAngle, sweepAngle,
                     penWidth, penColor, penDashStyle);
                 shape = narc;
-                shape.Draw();
+                //shape.Draw();
+                DrawingTools.Draw(narc, drawingFieldPictureBox);
                 this.Close();
             };
             tempArc = shape as Arc;
@@ -436,6 +524,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             WidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, WidthHeightLabel.Location.Y);
             WidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             WidthNumericUpDown.Value = width;
+            WidthNumericUpDown.Maximum = 10000;
             Controls.Add(WidthNumericUpDown);
 
             WidthNumericUpDown.ValueChanged += (sender, args) => width = (int)WidthNumericUpDown.Value;
@@ -444,6 +533,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             HeightNumericUpDown.Location = new Point(InteractiveControlLeftMargin + WidthNumericUpDown.Size.Width, WidthHeightLabel.Location.Y);
             HeightNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             HeightNumericUpDown.Value = height;
+            HeightNumericUpDown.Maximum = 10000;
             Controls.Add(HeightNumericUpDown);
 
             HeightNumericUpDown.ValueChanged += (sender, args) => height = (int)HeightNumericUpDown.Value;
@@ -462,6 +552,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             StartAngleNumericUpDown.Location = new Point(InteractiveControlLeftMargin, StartAngleLabel.Location.Y);
             StartAngleNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             StartAngleNumericUpDown.Value = (decimal)startAngle;
+            StartAngleNumericUpDown.Maximum = 10000;
             Controls.Add(StartAngleNumericUpDown);
 
             StartAngleNumericUpDown.ValueChanged += (sender, args) => startAngle = (int)StartAngleNumericUpDown.Value;
@@ -476,6 +567,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             SweepAngleNumericUpDown.Location = new Point(InteractiveControlLeftMargin, SweepAngleLabel.Location.Y);
             SweepAngleNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
             SweepAngleNumericUpDown.Value = (decimal)sweepAngle;
+            SweepAngleNumericUpDown.Maximum = 10000;
             Controls.Add(SweepAngleNumericUpDown);
 
             SweepAngleNumericUpDown.ValueChanged += (sender, args) => sweepAngle = (int)SweepAngleNumericUpDown.Value;
@@ -490,10 +582,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
             DrawButton.Click += (sender, args) =>
             {
-                Pie npie = new Pie(drawingFieldPictureBox, locationX, locationY, width, height, startAngle, sweepAngle,
+                Pie npie = new Pie(locationX, locationY, width, height, startAngle, sweepAngle,
                     penWidth, penColor, penDashStyle);
                 shape = npie;
-                shape.Draw();
+                DrawingTools.Draw(npie, drawingFieldPictureBox);
                 this.Close();
             };
             tempPie = shape as Pie;

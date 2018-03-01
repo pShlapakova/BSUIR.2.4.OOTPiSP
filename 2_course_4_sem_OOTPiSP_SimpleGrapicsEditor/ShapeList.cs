@@ -1,5 +1,6 @@
 ﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 {
@@ -12,11 +13,11 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             shapeList.Add(shape);
         }
 
-        public void DrawAll()
+        public void DrawAll(Control control)
         {
             foreach (Shape shape in shapeList)
             {
-                shape.Draw();
+                DrawingTools.Draw(shape, control);
             }
         }
     }

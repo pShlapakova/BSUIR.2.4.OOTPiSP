@@ -1,5 +1,7 @@
 ﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
@@ -75,6 +77,20 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             shapeEditForm.ShowDialog();
         }
 
+        private void DrawStarButton_Click(object sender, EventArgs e)
+        {
+            Star star;
+            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out star);
+            shapeEditForm.ShowDialog();
+        }
+
+        private void DrawSquareButton_Click(object sender, EventArgs e)
+        {
+            Square square;
+            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out square);
+            shapeEditForm.ShowDialog();
+        }
+
         #endregion
 
         private void ClearButton_Click(object sender, EventArgs e)
@@ -82,6 +98,11 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             DrawingTools.ClearControl(DrawingFieldPictureBox);
         }
 
-        #endregion                        
+        #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DrawingTools.Draw(new Star(100, 100, 100, 2, Color.Chartreuse, DashStyle.DashDot), DrawingFieldPictureBox);
+        }        
     }
 }
