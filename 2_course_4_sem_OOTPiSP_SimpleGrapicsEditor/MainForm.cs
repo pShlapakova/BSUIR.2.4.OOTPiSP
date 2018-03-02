@@ -1,7 +1,5 @@
 ﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
@@ -100,9 +98,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DrawingTools.Draw(new Star(100, 100, 100, 2, Color.Chartreuse, DashStyle.DashDot), DrawingFieldPictureBox);
-        }        
+        // Как насчёт того, чтобы добавлять все фигуры не только на холст, но и в список. И по собыию перерисовывать все их?
+
     }
 }
