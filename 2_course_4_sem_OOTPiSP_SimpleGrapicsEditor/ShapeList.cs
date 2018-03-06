@@ -13,11 +13,11 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             shapeList.Add(shape);
         }
 
-        public void DrawAll(Control control)
+        public void DrawAll(PictureBox pictureBox)
         {
             foreach (Shape shape in shapeList)
             {
-                DrawingTools.Draw(shape, control);
+                DrawingTools.Draw(shape, pictureBox);
             }
         }
     }

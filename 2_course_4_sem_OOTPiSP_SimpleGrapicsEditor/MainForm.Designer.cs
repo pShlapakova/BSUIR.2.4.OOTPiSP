@@ -50,10 +50,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DrawingFieldPictureBox.BackColor = System.Drawing.Color.White;
             this.DrawingFieldPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.DrawingFieldPictureBox.MinimumSize = new System.Drawing.Size(200, 150);
             this.DrawingFieldPictureBox.Name = "DrawingFieldPictureBox";
             this.DrawingFieldPictureBox.Size = new System.Drawing.Size(820, 578);
             this.DrawingFieldPictureBox.TabIndex = 0;
-            this.DrawingFieldPictureBox.TabStop = false;            
+            this.DrawingFieldPictureBox.TabStop = false;
             this.DrawingFieldPictureBox.MouseLeave += new System.EventHandler(this.DrawingFieldPictureBox_MouseLeave);
             this.DrawingFieldPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DrawingFieldPictureBox_MouseMove);
             // 
@@ -189,6 +190,7 @@
             this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.DrawingFieldPictureBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(320, 230);
             this.Name = "MainForm";
             this.Text = "Simple Graphics Editor";
             ((System.ComponentModel.ISupportInitialize)(this.DrawingFieldPictureBox)).EndInit();
