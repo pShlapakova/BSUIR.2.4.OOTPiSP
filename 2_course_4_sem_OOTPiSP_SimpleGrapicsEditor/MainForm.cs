@@ -1,6 +1,7 @@
 ﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
@@ -12,6 +13,8 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             InitializeComponent();            
         }
 
+        private Bitmap TempBitmap;
+
         #region События
 
         #region DrawingFieldPictureBox
@@ -21,11 +24,36 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         private void DrawingFieldPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             CurrentMousePositionTextBox.Text = $"{MousePosition.X}, {MousePosition.Y}";
+
+            
+            //Graphics graphics = Graphics.FromImage(TempBitmap);
+
+            //GraphicsPath graphicsPath = new GraphicsPath();
+
+            //graphicsPath.StartFigure();
+
+            //graphicsPath.AddLine(MousePosition.X, 0, MousePosition.X, TempBitmap.Height);
+            //graphicsPath.StartFigure();
+            //graphicsPath.AddLine(0, MousePosition.Y, TempBitmap.Width, MousePosition.Y);
+            //graphicsPath.CloseAllFigures();
+
+            //graphics.DrawPath(new Pen(Color.Black, 1), graphicsPath);
+            
         }
 
         private void DrawingFieldPictureBox_MouseLeave(object sender, EventArgs e)
         {
             CurrentMousePositionTextBox.Clear();
+
+            //DrawingFieldPictureBox.Image = TempBitmap;
+
+        }
+
+        private void MainForm_MouseEnter(object sender, EventArgs e)
+        {
+            //TempBitmap = DrawingFieldPictureBox.Image != null
+            //    ? new Bitmap(DrawingFieldPictureBox.Image, DrawingFieldPictureBox.Image.Width, DrawingFieldPictureBox.Image.Height)
+            //    : new Bitmap(DrawingFieldPictureBox.Width, DrawingFieldPictureBox.Height);            
         }
 
         #endregion
@@ -95,7 +123,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         private void ClearButton_Click(object sender, EventArgs e)
         {
             DrawingTools.ClearControl(DrawingFieldPictureBox);
+            //DrawingTools.ClearControl(ClearButton);
         }
+
+        
 
         #endregion
 

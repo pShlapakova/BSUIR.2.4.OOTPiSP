@@ -193,6 +193,7 @@
             this.MinimumSize = new System.Drawing.Size(320, 230);
             this.Name = "MainForm";
             this.Text = "Simple Graphics Editor";
+            this.MouseEnter += new System.EventHandler(this.MainForm_MouseEnter);
             ((System.ComponentModel.ISupportInitialize)(this.DrawingFieldPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

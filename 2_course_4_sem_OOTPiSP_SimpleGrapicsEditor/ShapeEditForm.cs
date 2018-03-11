@@ -1,13 +1,14 @@
-﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+using Rectangle = _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes.Rectangle;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 {
     public partial class ShapeEditForm : Form
     {
-        private Shape shape;
+        private Shape _shape;
 
         #region Constant Values
 
@@ -23,39 +24,39 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
         #region ShapeEditForm Fields Values
 
-        private int penWidth = 1;
-        private Color penColor = Color.Black;
-        private DashStyle penDashStyle = DashStyle.Solid;
-        private int locationX = 0;
-        private int locationY = 0;
-        private int radius = 0;
-        private int length = 0;
-        private int locationX2 = 0;
-        private int locationY2 = 0;
-        private int width = 0;
-        private int height = 0;
-        private float startAngle = 0;
-        private float sweepAngle = 0;
+        private int _penWidth = 1;
+        private Color _penColor = Color.Black;
+        private DashStyle _penDashStyle = DashStyle.Solid;
+        private int _locationX;
+        private int _locationY;
+        private int _radius;
+        private int _length;
+        private int _locationX2;
+        private int _locationY2;
+        private int _width;
+        private int _height;
+        private float _startAngle;
+        private float _sweepAngle;
 
         #endregion
 
         #region Common Controls
 
-        Label PenWidthLabel = new Label();
-        NumericUpDown PenWidthNumericUpDown = new NumericUpDown();
+        private readonly Label _penWidthLabel = new Label();
+        private readonly NumericUpDown _penWidthNumericUpDown = new NumericUpDown();
 
-        Label PenColorLabel = new Label();
-        Button PenColorButton = new Button();
-        ColorDialog PenColorDialog = new ColorDialog();
+        private readonly Label _penColorLabel = new Label();
+        private readonly Button _penColorButton = new Button();
+        private readonly ColorDialog _penColorDialog = new ColorDialog();
 
-        Label PenDashStyleLabel = new Label();
-        ComboBox PenDashStyleComboBox = new ComboBox();
+        private readonly Label _penDashStyleLabel = new Label();
+        private readonly ComboBox _penDashStyleComboBox = new ComboBox();
 
-        Label LocationLabel = new Label();
-        NumericUpDown LocationXNumericUpDown = new NumericUpDown();
-        NumericUpDown LocationYNumericUpDown = new NumericUpDown();
+        private readonly Label _locationLabel = new Label();
+        private readonly NumericUpDown _locationXNumericUpDown = new NumericUpDown();
+        private readonly NumericUpDown _locationYNumericUpDown = new NumericUpDown();
 
-        Button DrawButton = new Button();
+        private readonly Button _drawButton = new Button();
 
         #endregion
 
@@ -65,106 +66,106 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
         private void PenWidthLabelAdd()
         {            
-            PenWidthLabel.Location = new Point(LabelLeftMargin, 10);
-            PenWidthLabel.AutoSize = true;
-            PenWidthLabel.Text = "Pen Width:";
-            Controls.Add(PenWidthLabel);
+            _penWidthLabel.Location = new Point(LabelLeftMargin, 10);
+            _penWidthLabel.AutoSize = true;
+            _penWidthLabel.Text = "Pen Width:";
+            Controls.Add(_penWidthLabel);
         }
 
         private void PenWidthNumericUpDownAdd()
         {            
-            PenWidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, PenWidthLabel.Location.Y);
-            PenWidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            PenWidthNumericUpDown.Value = penWidth;
-            PenWidthNumericUpDown.Minimum = 1;
-            PenWidthNumericUpDown.Maximum = 10;
-            Controls.Add(PenWidthNumericUpDown);
+            _penWidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, _penWidthLabel.Location.Y);
+            _penWidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
+            _penWidthNumericUpDown.Value = _penWidth;
+            _penWidthNumericUpDown.Minimum = 1;
+            _penWidthNumericUpDown.Maximum = 10;
+            Controls.Add(_penWidthNumericUpDown);
 
-            PenWidthNumericUpDown.ValueChanged += (sender, args) => penWidth = (int)PenWidthNumericUpDown.Value;
+            _penWidthNumericUpDown.ValueChanged += (sender, args) => _penWidth = (int)_penWidthNumericUpDown.Value;
         }
 
         private void PenColorLabelAdd()
         {            
-            PenColorLabel.Location = new Point(LabelLeftMargin, PenWidthLabel.Location.Y + ControlsIndent);
-            PenColorLabel.AutoSize = true;
-            PenColorLabel.Text = "Pen Color:";
-            Controls.Add(PenColorLabel);
+            _penColorLabel.Location = new Point(LabelLeftMargin, _penWidthLabel.Location.Y + ControlsIndent);
+            _penColorLabel.AutoSize = true;
+            _penColorLabel.Text = "Pen Color:";
+            Controls.Add(_penColorLabel);
         }
 
         private void PenColorButtonAdd()
         {            
-            PenColorButton.Location = new Point(InteractiveControlLeftMargin, PenColorLabel.Location.Y);
-            PenColorButton.BackColor = Color.Black;
-            PenColorButton.Text = "";
-            Controls.Add(PenColorButton);
+            _penColorButton.Location = new Point(InteractiveControlLeftMargin, _penColorLabel.Location.Y);
+            _penColorButton.BackColor = Color.Black;
+            _penColorButton.Text = "";
+            Controls.Add(_penColorButton);
         }
 
         private void PenColorDialogAdd()
         {            
-            PenColorDialog.Color = penColor;
-            PenColorDialog.AllowFullOpen = false;
+            _penColorDialog.Color = _penColor;
+            _penColorDialog.AllowFullOpen = false;
 
-            PenColorButton.Click += (sender, args) =>
+            _penColorButton.Click += (sender, args) =>
             {
-                if (PenColorDialog.ShowDialog() == DialogResult.OK)
+                if (_penColorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    penColor = PenColorDialog.Color;
-                    PenColorButton.BackColor = penColor;
+                    _penColor = _penColorDialog.Color;
+                    _penColorButton.BackColor = _penColor;
                 }
             };
         }
 
         private void PenDashStyleLabelAdd()
         {            
-            PenDashStyleLabel.Location = new Point(LabelLeftMargin, PenColorLabel.Location.Y + ControlsIndent);
-            PenDashStyleLabel.AutoSize = true;
-            PenDashStyleLabel.Text = "Pen Dash Style:";
-            Controls.Add(PenDashStyleLabel);
+            _penDashStyleLabel.Location = new Point(LabelLeftMargin, _penColorLabel.Location.Y + ControlsIndent);
+            _penDashStyleLabel.AutoSize = true;
+            _penDashStyleLabel.Text = "Pen Dash Style:";
+            Controls.Add(_penDashStyleLabel);
         }
 
         private void PenDashStyleComboBoxAdd()
         {            
-            PenDashStyleComboBox.Location = new Point(InteractiveControlLeftMargin, PenDashStyleLabel.Location.Y);
-            PenDashStyleComboBox.Items.Add(DashStyle.Solid);
-            PenDashStyleComboBox.Items.Add(DashStyle.Dash);
-            PenDashStyleComboBox.Items.Add(DashStyle.Dot);
-            PenDashStyleComboBox.Items.Add(DashStyle.DashDot);
-            PenDashStyleComboBox.Items.Add(DashStyle.DashDotDot);
-            PenDashStyleComboBox.SelectedItem = penDashStyle;
-            Controls.Add(PenDashStyleComboBox);
+            _penDashStyleComboBox.Location = new Point(InteractiveControlLeftMargin, _penDashStyleLabel.Location.Y);
+            _penDashStyleComboBox.Items.Add(DashStyle.Solid);
+            _penDashStyleComboBox.Items.Add(DashStyle.Dash);
+            _penDashStyleComboBox.Items.Add(DashStyle.Dot);
+            _penDashStyleComboBox.Items.Add(DashStyle.DashDot);
+            _penDashStyleComboBox.Items.Add(DashStyle.DashDotDot);
+            _penDashStyleComboBox.SelectedItem = _penDashStyle;
+            Controls.Add(_penDashStyleComboBox);
 
-            PenDashStyleComboBox.SelectedIndexChanged +=
-                (sender, args) => penDashStyle = (DashStyle)PenDashStyleComboBox.SelectedItem;
+            _penDashStyleComboBox.SelectedIndexChanged +=
+                (sender, args) => _penDashStyle = (DashStyle)_penDashStyleComboBox.SelectedItem;
         }
 
         private void LocationLabelAdd()
         {            
-            LocationLabel.Location = new Point(LabelLeftMargin, PenDashStyleLabel.Location.Y + ControlsIndent);
-            LocationLabel.AutoSize = true;
-            LocationLabel.Text = "Location (x, y):";
-            Controls.Add(LocationLabel);
+            _locationLabel.Location = new Point(LabelLeftMargin, _penDashStyleLabel.Location.Y + ControlsIndent);
+            _locationLabel.AutoSize = true;
+            _locationLabel.Text = "Location (x, y):";
+            Controls.Add(_locationLabel);
         }
 
         private void LocationXNumericUpDownAdd()
         {            
-            LocationXNumericUpDown.Location = new Point(InteractiveControlLeftMargin, LocationLabel.Location.Y);
-            LocationXNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            LocationXNumericUpDown.Value = locationX;
-            LocationXNumericUpDown.Maximum = 10000;
-            Controls.Add(LocationXNumericUpDown);
+            _locationXNumericUpDown.Location = new Point(InteractiveControlLeftMargin, _locationLabel.Location.Y);
+            _locationXNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
+            _locationXNumericUpDown.Value = _locationX;
+            _locationXNumericUpDown.Maximum = 10000;
+            Controls.Add(_locationXNumericUpDown);
 
-            LocationXNumericUpDown.ValueChanged += (sender, args) => locationX = (int)LocationXNumericUpDown.Value;
+            _locationXNumericUpDown.ValueChanged += (sender, args) => _locationX = (int)_locationXNumericUpDown.Value;
         }
 
         private void LocationYNumericUpDownAdd()
         {            
-            LocationYNumericUpDown.Location = new Point(InteractiveControlLeftMargin + LocationXNumericUpDown.Size.Width, LocationLabel.Location.Y);
-            LocationYNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            LocationYNumericUpDown.Value = locationY;
-            LocationYNumericUpDown.Maximum = 10000;
-            Controls.Add(LocationYNumericUpDown);
+            _locationYNumericUpDown.Location = new Point(InteractiveControlLeftMargin + _locationXNumericUpDown.Size.Width, _locationLabel.Location.Y);
+            _locationYNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
+            _locationYNumericUpDown.Value = _locationY;
+            _locationYNumericUpDown.Maximum = 10000;
+            Controls.Add(_locationYNumericUpDown);
 
-            LocationYNumericUpDown.ValueChanged += (sender, args) => locationY = (int)LocationYNumericUpDown.Value;
+            _locationYNumericUpDown.ValueChanged += (sender, args) => _locationY = (int)_locationYNumericUpDown.Value;
         }
 
         #endregion
@@ -175,201 +176,235 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         {
             #region Location2
 
-            Label Location2Label = new Label();
-            Location2Label.Location = new Point(LabelLeftMargin, LocationLabel.Location.Y + ControlsIndent);
-            Location2Label.AutoSize = true;
-            Location2Label.Text = "Location 2 (x, y):";
-            Controls.Add(Location2Label);
+            Label location2Label = new Label
+            {
+                Location = new Point(LabelLeftMargin, _locationLabel.Location.Y + ControlsIndent),
+                AutoSize = true,
+                Text = "Location 2 (x, y):"
+            };
+            Controls.Add(location2Label);
 
-            NumericUpDown Location2XNumericUpDown = new NumericUpDown();
-            Location2XNumericUpDown.Location = new Point(InteractiveControlLeftMargin, Location2Label.Location.Y);
-            Location2XNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            Location2XNumericUpDown.Value = locationX2;
-            Location2XNumericUpDown.Maximum = 10000;
-            Controls.Add(Location2XNumericUpDown);
+            NumericUpDown location2XNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin, location2Label.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _locationX2,
+                Maximum = 10000
+            };
+            Controls.Add(location2XNumericUpDown);
 
-            Location2XNumericUpDown.ValueChanged += (sender, args) => locationX2 = (int)Location2XNumericUpDown.Value;
+            location2XNumericUpDown.ValueChanged += (sender, args) => _locationX2 = (int)location2XNumericUpDown.Value;
 
-            NumericUpDown Location2YNumericUpDown = new NumericUpDown();
-            Location2YNumericUpDown.Location = new Point(InteractiveControlLeftMargin + Location2XNumericUpDown.Size.Width, Location2Label.Location.Y);
-            Location2YNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            Location2YNumericUpDown.Value = locationY2;
-            Location2YNumericUpDown.Maximum = 10000;
-            Controls.Add(Location2YNumericUpDown);
+            NumericUpDown location2YNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin + location2XNumericUpDown.Size.Width, location2Label.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _locationY2,
+                Maximum = 10000
+            };
+            Controls.Add(location2YNumericUpDown);
 
-            Location2YNumericUpDown.ValueChanged += (sender, args) => locationY2 = (int)Location2YNumericUpDown.Value;
+            location2YNumericUpDown.ValueChanged += (sender, args) => _locationY2 = (int)location2YNumericUpDown.Value;
 
             #endregion            
 
-            DrawButton.Location = new Point(this.Size.Width / 2 - DrawButton.Size.Width / 2, Location2Label.Location.Y + ControlsIndent);
-            DrawButton.Text = "Draw";
-            Controls.Add(DrawButton);
+            _drawButton.Location = new Point(Size.Width / 2 - _drawButton.Size.Width / 2, location2Label.Location.Y + ControlsIndent);
+            _drawButton.Text = "Draw";
+            Controls.Add(_drawButton);
 
-            this.Size = new Size(this.Size.Width, DrawButton.Location.Y + DrawButton.Size.Height + ButtonBottomMargin);
+            Size = new Size(Size.Width, _drawButton.Location.Y + _drawButton.Size.Height + ButtonBottomMargin);
         }
 
         private void RadiusAllAdd()
         {
             #region Radius
 
-            Label RadiusLabel = new Label();
-            RadiusLabel.Location = new Point(LabelLeftMargin, LocationLabel.Location.Y + ControlsIndent);
-            RadiusLabel.AutoSize = true;
-            RadiusLabel.Text = "Radius:";
-            Controls.Add(RadiusLabel);
+            Label radiusLabel = new Label
+            {
+                Location = new Point(LabelLeftMargin, _locationLabel.Location.Y + ControlsIndent),
+                AutoSize = true,
+                Text = "Radius:"
+            };
+            Controls.Add(radiusLabel);
 
-            NumericUpDown RadiusNumericUpDown = new NumericUpDown();
-            RadiusNumericUpDown.Location = new Point(InteractiveControlLeftMargin, RadiusLabel.Location.Y);
-            RadiusNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            RadiusNumericUpDown.Value = radius;
-            RadiusNumericUpDown.Maximum = 10000;
-            Controls.Add(RadiusNumericUpDown);
+            NumericUpDown radiusNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin, radiusLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _radius,
+                Maximum = 10000
+            };
+            Controls.Add(radiusNumericUpDown);
 
-            RadiusNumericUpDown.ValueChanged += (sender, args) => radius = (int)RadiusNumericUpDown.Value;
+            radiusNumericUpDown.ValueChanged += (sender, args) => _radius = (int)radiusNumericUpDown.Value;
 
             #endregion
 
-            DrawButton.Location = new Point(this.Size.Width / 2 - DrawButton.Size.Width / 2, RadiusLabel.Location.Y + ControlsIndent);
-            DrawButton.Text = "Draw";
-            Controls.Add(DrawButton);
+            _drawButton.Location = new Point(Size.Width / 2 - _drawButton.Size.Width / 2, radiusLabel.Location.Y + ControlsIndent);
+            _drawButton.Text = "Draw";
+            Controls.Add(_drawButton);
 
-            this.Size = new Size(this.Size.Width, DrawButton.Location.Y + DrawButton.Size.Height + ButtonBottomMargin);
+            Size = new Size(Size.Width, _drawButton.Location.Y + _drawButton.Size.Height + ButtonBottomMargin);
         }
 
         private void LengthAllAdd()
         {
             #region Length
 
-            Label LengthLabel = new Label();
-            LengthLabel.Location = new Point(LabelLeftMargin, LocationLabel.Location.Y + ControlsIndent);
-            LengthLabel.AutoSize = true;
-            LengthLabel.Text = "Length:";
-            Controls.Add(LengthLabel);
+            Label lengthLabel = new Label
+            {
+                Location = new Point(LabelLeftMargin, _locationLabel.Location.Y + ControlsIndent),
+                AutoSize = true,
+                Text = "Length:"
+            };
+            Controls.Add(lengthLabel);
 
-            NumericUpDown LengthNumericUpDown = new NumericUpDown();
-            LengthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, LengthLabel.Location.Y);
-            LengthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            LengthNumericUpDown.Value = length;
-            LengthNumericUpDown.Maximum = 10000;
-            Controls.Add(LengthNumericUpDown);
+            NumericUpDown lengthNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin, lengthLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _length,
+                Maximum = 10000
+            };
+            Controls.Add(lengthNumericUpDown);
 
-            LengthNumericUpDown.ValueChanged += (sender, args) => length = (int)LengthNumericUpDown.Value;
+            lengthNumericUpDown.ValueChanged += (sender, args) => _length = (int)lengthNumericUpDown.Value;
 
             #endregion
 
-            DrawButton.Location = new Point(this.Size.Width / 2 - DrawButton.Size.Width / 2, LengthLabel.Location.Y + ControlsIndent);
-            DrawButton.Text = "Draw";
-            Controls.Add(DrawButton);
+            _drawButton.Location = new Point(Size.Width / 2 - _drawButton.Size.Width / 2, lengthLabel.Location.Y + ControlsIndent);
+            _drawButton.Text = "Draw";
+            Controls.Add(_drawButton);
 
-            this.Size = new Size(this.Size.Width, DrawButton.Location.Y + DrawButton.Size.Height + ButtonBottomMargin);
+            Size = new Size(Size.Width, _drawButton.Location.Y + _drawButton.Size.Height + ButtonBottomMargin);
         }
 
         private void WidthHeightAllAdd()
         {
             #region WidthHeight
 
-            Label WidthHeightLabel = new Label();
-            WidthHeightLabel.Location = new Point(LabelLeftMargin, LocationLabel.Location.Y + ControlsIndent);
-            WidthHeightLabel.AutoSize = true;
-            WidthHeightLabel.Text = "Width, Height (x, y):";
-            Controls.Add(WidthHeightLabel);
+            Label widthHeightLabel = new Label
+            {
+                Location = new Point(LabelLeftMargin, _locationLabel.Location.Y + ControlsIndent),
+                AutoSize = true,
+                Text = "Width, Height (x, y):"
+            };
+            Controls.Add(widthHeightLabel);
 
-            NumericUpDown WidthNumericUpDown = new NumericUpDown();
-            WidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, WidthHeightLabel.Location.Y);
-            WidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            WidthNumericUpDown.Value = width;
-            WidthNumericUpDown.Maximum = 10000;
-            Controls.Add(WidthNumericUpDown);
+            NumericUpDown widthNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin, widthHeightLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _width,
+                Maximum = 10000
+            };
+            Controls.Add(widthNumericUpDown);
 
-            WidthNumericUpDown.ValueChanged += (sender, args) => width = (int)WidthNumericUpDown.Value;
+            widthNumericUpDown.ValueChanged += (sender, args) => _width = (int)widthNumericUpDown.Value;
 
-            NumericUpDown HeightNumericUpDown = new NumericUpDown();
-            HeightNumericUpDown.Location = new Point(InteractiveControlLeftMargin + WidthNumericUpDown.Size.Width, WidthHeightLabel.Location.Y);
-            HeightNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            HeightNumericUpDown.Value = height;
-            HeightNumericUpDown.Maximum = 10000;
-            Controls.Add(HeightNumericUpDown);
+            NumericUpDown heightNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin + widthNumericUpDown.Size.Width, widthHeightLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _height,
+                Maximum = 10000
+            };
+            Controls.Add(heightNumericUpDown);
 
-            HeightNumericUpDown.ValueChanged += (sender, args) => height = (int)HeightNumericUpDown.Value;
+            heightNumericUpDown.ValueChanged += (sender, args) => _height = (int)heightNumericUpDown.Value;
 
             #endregion
 
-            DrawButton.Location = new Point(this.Size.Width / 2 - DrawButton.Size.Width / 2, WidthHeightLabel.Location.Y + ControlsIndent);
-            DrawButton.Text = "Draw";
-            Controls.Add(DrawButton);
+            _drawButton.Location = new Point(Size.Width / 2 - _drawButton.Size.Width / 2, widthHeightLabel.Location.Y + ControlsIndent);
+            _drawButton.Text = "Draw";
+            Controls.Add(_drawButton);
 
-            this.Size = new Size(this.Size.Width, DrawButton.Location.Y + DrawButton.Size.Height + ButtonBottomMargin);
+            Size = new Size(Size.Width, _drawButton.Location.Y + _drawButton.Size.Height + ButtonBottomMargin);
         }
 
         private void WidthHeightStartAngleSweepAngleAllAdd()
         {
             #region WidthHeight
 
-            Label WidthHeightLabel = new Label();
-            WidthHeightLabel.Location = new Point(LabelLeftMargin, LocationLabel.Location.Y + ControlsIndent);
-            WidthHeightLabel.AutoSize = true;
-            WidthHeightLabel.Text = "Width, Height (x, y):";
-            Controls.Add(WidthHeightLabel);
+            Label widthHeightLabel = new Label
+            {
+                Location = new Point(LabelLeftMargin, _locationLabel.Location.Y + ControlsIndent),
+                AutoSize = true,
+                Text = "Width, Height (x, y):"
+            };
+            Controls.Add(widthHeightLabel);
 
-            NumericUpDown WidthNumericUpDown = new NumericUpDown();
-            WidthNumericUpDown.Location = new Point(InteractiveControlLeftMargin, WidthHeightLabel.Location.Y);
-            WidthNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            WidthNumericUpDown.Value = width;
-            WidthNumericUpDown.Maximum = 10000;
-            Controls.Add(WidthNumericUpDown);
+            NumericUpDown widthNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin, widthHeightLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _width,
+                Maximum = 10000
+            };
+            Controls.Add(widthNumericUpDown);
 
-            WidthNumericUpDown.ValueChanged += (sender, args) => width = (int)WidthNumericUpDown.Value;
+            widthNumericUpDown.ValueChanged += (sender, args) => _width = (int)widthNumericUpDown.Value;
 
-            NumericUpDown HeightNumericUpDown = new NumericUpDown();
-            HeightNumericUpDown.Location = new Point(InteractiveControlLeftMargin + WidthNumericUpDown.Size.Width, WidthHeightLabel.Location.Y);
-            HeightNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            HeightNumericUpDown.Value = height;
-            HeightNumericUpDown.Maximum = 10000;
-            Controls.Add(HeightNumericUpDown);
+            NumericUpDown heightNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin + widthNumericUpDown.Size.Width, widthHeightLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = _height,
+                Maximum = 10000
+            };
+            Controls.Add(heightNumericUpDown);
 
-            HeightNumericUpDown.ValueChanged += (sender, args) => height = (int)HeightNumericUpDown.Value;
+            heightNumericUpDown.ValueChanged += (sender, args) => _height = (int)heightNumericUpDown.Value;
 
             #endregion
 
             #region StartAngleSweepAngle
 
-            Label StartAngleLabel = new Label();
-            StartAngleLabel.Location = new Point(LabelLeftMargin, WidthHeightLabel.Location.Y + ControlsIndent);
-            StartAngleLabel.AutoSize = true;
-            StartAngleLabel.Text = "Start Angle:";
-            Controls.Add(StartAngleLabel);
+            Label startAngleLabel = new Label
+            {
+                Location = new Point(LabelLeftMargin, widthHeightLabel.Location.Y + ControlsIndent),
+                AutoSize = true,
+                Text = "Start Angle:"
+            };
+            Controls.Add(startAngleLabel);
 
-            NumericUpDown StartAngleNumericUpDown = new NumericUpDown();
-            StartAngleNumericUpDown.Location = new Point(InteractiveControlLeftMargin, StartAngleLabel.Location.Y);
-            StartAngleNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            StartAngleNumericUpDown.Value = (decimal)startAngle;
-            StartAngleNumericUpDown.Maximum = 10000;
-            Controls.Add(StartAngleNumericUpDown);
+            NumericUpDown startAngleNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin, startAngleLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = (decimal)_startAngle,
+                Maximum = 10000
+            };
+            Controls.Add(startAngleNumericUpDown);
 
-            StartAngleNumericUpDown.ValueChanged += (sender, args) => startAngle = (int)StartAngleNumericUpDown.Value;
+            startAngleNumericUpDown.ValueChanged += (sender, args) => _startAngle = (int)startAngleNumericUpDown.Value;
 
-            Label SweepAngleLabel = new Label();
-            SweepAngleLabel.Location = new Point(LabelLeftMargin, StartAngleLabel.Location.Y + ControlsIndent);
-            SweepAngleLabel.AutoSize = true;
-            SweepAngleLabel.Text = "Sweep Angle:";
-            Controls.Add(SweepAngleLabel);
+            Label sweepAngleLabel = new Label
+            {
+                Location = new Point(LabelLeftMargin, startAngleLabel.Location.Y + ControlsIndent),
+                AutoSize = true,
+                Text = "Sweep Angle:"
+            };
+            Controls.Add(sweepAngleLabel);
 
-            NumericUpDown SweepAngleNumericUpDown = new NumericUpDown();
-            SweepAngleNumericUpDown.Location = new Point(InteractiveControlLeftMargin, SweepAngleLabel.Location.Y);
-            SweepAngleNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            SweepAngleNumericUpDown.Value = (decimal)sweepAngle;
-            SweepAngleNumericUpDown.Maximum = 10000;
-            Controls.Add(SweepAngleNumericUpDown);
+            NumericUpDown sweepAngleNumericUpDown = new NumericUpDown
+            {
+                Location = new Point(InteractiveControlLeftMargin, sweepAngleLabel.Location.Y),
+                Size = new Size(NumericUpDownWidth, 14),
+                Value = (decimal)_sweepAngle,
+                Maximum = 10000
+            };
+            Controls.Add(sweepAngleNumericUpDown);
 
-            SweepAngleNumericUpDown.ValueChanged += (sender, args) => sweepAngle = (int)SweepAngleNumericUpDown.Value;
+            sweepAngleNumericUpDown.ValueChanged += (sender, args) => _sweepAngle = (int)sweepAngleNumericUpDown.Value;
 
             #endregion
 
-            DrawButton.Location = new Point(this.Size.Width / 2 - DrawButton.Size.Width / 2, SweepAngleLabel.Location.Y + ControlsIndent);
-            DrawButton.Text = "Draw";
-            Controls.Add(DrawButton);
+            _drawButton.Location = new Point(Size.Width / 2 - _drawButton.Size.Width / 2, sweepAngleLabel.Location.Y + ControlsIndent);
+            _drawButton.Text = "Draw";
+            Controls.Add(_drawButton);
 
-            this.Size = new Size(this.Size.Width, DrawButton.Location.Y + DrawButton.Size.Height + ButtonBottomMargin);
+            Size = new Size(Size.Width, _drawButton.Location.Y + _drawButton.Size.Height + ButtonBottomMargin);
         }
 
         #endregion
@@ -399,130 +434,130 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             #endregion
 
             // ShapeEditForm Width Configuration
-            this.Size = new Size(PenDashStyleComboBox.Location.X + PenDashStyleComboBox.Size.Width + InteractiveControlRightMargin, this.Size.Height);
+            Size = new Size(_penDashStyleComboBox.Location.X + _penDashStyleComboBox.Size.Width + InteractiveControlRightMargin, Size.Height);
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Line tempLine) : this()
         {
             Location2AllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Line nline = new Line(locationX, locationY, locationX2, locationY2, penWidth,
-                    penColor, penDashStyle);
-                shape = nline;
+                Line nline = new Line(_locationX, _locationY, _locationX2, _locationY2, _penWidth,
+                    _penColor, _penDashStyle);
+                _shape = nline;
                 DrawingTools.Draw(nline, drawingFieldPictureBox);
 
-                this.Close();
+                Close();
             };
-            tempLine = shape as Line;            
+            tempLine = _shape as Line;            
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Circle tempCircle) : this()
         {
             RadiusAllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Circle ncircle = new Circle(locationX, locationY, radius, penWidth, penColor,
-                    penDashStyle);
-                shape = ncircle;                
+                Circle ncircle = new Circle(_locationX, _locationY, _radius, _penWidth, _penColor,
+                    _penDashStyle);
+                _shape = ncircle;                
                 DrawingTools.Draw(ncircle, drawingFieldPictureBox);
-                this.Close();
+                Close();
             };
-            tempCircle = shape as Circle;
+            tempCircle = _shape as Circle;
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Star tempStar) : this()
         {
             RadiusAllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Star nstar = new Star(locationX, locationY, radius, penWidth, penColor,
-                    penDashStyle);
-                shape = nstar;                
+                Star nstar = new Star(_locationX, _locationY, _radius, _penWidth, _penColor,
+                    _penDashStyle);
+                _shape = nstar;                
                 DrawingTools.Draw(nstar, drawingFieldPictureBox);
-                this.Close();
+                Close();
             };
-            tempStar = shape as Star;
+            tempStar = _shape as Star;
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Square tempSquare) : this()
         {
             LengthAllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Square nsquare = new Square(locationX, locationY, length, penWidth, penColor,
-                    penDashStyle);
-                shape = nsquare;                
+                Square nsquare = new Square(_locationX, _locationY, _length, _penWidth, _penColor,
+                    _penDashStyle);
+                _shape = nsquare;                
                 DrawingTools.Draw(nsquare, drawingFieldPictureBox);
-                this.Close();
+                Close();
             };
-            tempSquare = shape as Square;
+            tempSquare = _shape as Square;
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Shapes.Rectangle tempRectangle) : this()
+        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Rectangle tempRectangle) : this()
         {
             WidthHeightAllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Shapes.Rectangle nrectangle = new Shapes.Rectangle(locationX, locationY, width,
-                    height, penWidth, penColor, penDashStyle);
-                shape = nrectangle;
+                Rectangle nrectangle = new Rectangle(_locationX, _locationY, _width,
+                    _height, _penWidth, _penColor, _penDashStyle);
+                _shape = nrectangle;
                 DrawingTools.Draw(nrectangle, drawingFieldPictureBox);
-                this.Close();
+                Close();
             };
-            tempRectangle = shape as Shapes.Rectangle;
+            tempRectangle = _shape as Rectangle;
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Ellipse tempEllipse) : this()
         {
             WidthHeightAllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Ellipse nellipse = new Ellipse(locationX, locationY, width, height, penWidth,
-                    penColor, penDashStyle);
-                shape = nellipse;
-                //shape.Draw();
+                Ellipse nellipse = new Ellipse(_locationX, _locationY, _width, _height, _penWidth,
+                    _penColor, _penDashStyle);
+                _shape = nellipse;
+                //_shape.Draw();
                 DrawingTools.Draw(nellipse, drawingFieldPictureBox);
-                this.Close();
+                Close();
             };
-            tempEllipse = shape as Ellipse;
+            tempEllipse = _shape as Ellipse;
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Arc tempArc) : this()
         {
             WidthHeightStartAngleSweepAngleAllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Arc narc = new Arc(locationX, locationY, width, height, startAngle, sweepAngle,
-                    penWidth, penColor, penDashStyle);
-                shape = narc;
-                //shape.Draw();
+                Arc narc = new Arc(_locationX, _locationY, _width, _height, _startAngle, _sweepAngle,
+                    _penWidth, _penColor, _penDashStyle);
+                _shape = narc;
+                //_shape.Draw();
                 DrawingTools.Draw(narc, drawingFieldPictureBox);
-                this.Close();
+                Close();
             };
-            tempArc = shape as Arc;
+            tempArc = _shape as Arc;
         }
 
         public ShapeEditForm(PictureBox drawingFieldPictureBox, out Pie tempPie) : this()
         {
             WidthHeightStartAngleSweepAngleAllAdd();
 
-            DrawButton.Click += (sender, args) =>
+            _drawButton.Click += (sender, args) =>
             {
-                Pie npie = new Pie(locationX, locationY, width, height, startAngle, sweepAngle,
-                    penWidth, penColor, penDashStyle);
-                shape = npie;
+                Pie npie = new Pie(_locationX, _locationY, _width, _height, _startAngle, _sweepAngle,
+                    _penWidth, _penColor, _penDashStyle);
+                _shape = npie;
                 DrawingTools.Draw(npie, drawingFieldPictureBox);
-                this.Close();
+                Close();
             };
-            tempPie = shape as Pie;
+            tempPie = _shape as Pie;
         }
     }
 }
