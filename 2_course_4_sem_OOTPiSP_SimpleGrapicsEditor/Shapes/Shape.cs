@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
@@ -9,7 +8,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
         protected GraphicsPath graphicsPath = new GraphicsPath();
         protected Pen pen = new Pen(Color.Black, 1);
 
-        protected readonly int x, y;        
+        protected readonly int x, y;    // x,y - top left corner        
 
         protected Shape(int x, int y, float penWidth, Color penColor, DashStyle penDashStyle)
         {           
@@ -21,15 +20,9 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             pen.DashStyle = penDashStyle;
         }
 
-        public GraphicsPath GetGraphicsPath
-        {
-            get { return graphicsPath; }
-        }
+        public GraphicsPath GetGraphicsPath => graphicsPath;
 
-        public Pen GetPen
-        {
-            get { return pen; }
-        }
+        public Pen GetPen => pen;
 
         public abstract void CreateShape();
 

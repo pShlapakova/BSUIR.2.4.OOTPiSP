@@ -47,11 +47,9 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
         public static void Draw(Shape shape, PictureBox pictureBox)
         {
-            //Bitmap bitmap = pictureBox.Image != null
-            //    ? new Bitmap(pictureBox.Image, pictureBox.Image.Width, pictureBox.Image.Height)
-            //    : new Bitmap(pictureBox.Width, pictureBox.Height);
-
-            Bitmap bitmap = new Bitmap(3000, 3000);
+            Bitmap bitmap = pictureBox.Image != null
+                ? new Bitmap(pictureBox.Image, pictureBox.Image.Width, pictureBox.Image.Height)
+                : new Bitmap(3000, 3000);            
 
             Graphics graphics = Graphics.FromImage(bitmap);
             shape.CreateShape();

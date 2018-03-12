@@ -1,7 +1,6 @@
 ﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
@@ -13,7 +12,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             InitializeComponent();            
         }
 
-        private Bitmap TempBitmap;
+        //private Bitmap TempBitmap;
 
         #region События
 
@@ -23,7 +22,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
         private void DrawingFieldPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            CurrentMousePositionTextBox.Text = $"{MousePosition.X}, {MousePosition.Y}";
+            CurrentMousePositionTextBox.Text = $"{MousePosition.X - Location.X - 8}, {MousePosition.Y - Location.Y - 27}";
 
             
             //Graphics graphics = Graphics.FromImage(TempBitmap);
@@ -125,12 +124,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             DrawingTools.ClearControl(DrawingFieldPictureBox);
             //DrawingTools.ClearControl(ClearButton);
         }
-
         
-
-        #endregion
-
-        // Как насчёт того, чтобы добавлять все фигуры не только на холст, но и в список. И по собыию перерисовывать все их?
-
+        #endregion        
     }
 }

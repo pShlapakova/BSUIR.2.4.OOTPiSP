@@ -26,8 +26,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
         {
             Point center = new Point(x + radius, y + radius);
 
-            double startAngle = Math.PI / 2;
-            double currAngle = startAngle;
+            double currAngle = Math.PI / 2;
 
             graphicsPath.StartFigure();
 
