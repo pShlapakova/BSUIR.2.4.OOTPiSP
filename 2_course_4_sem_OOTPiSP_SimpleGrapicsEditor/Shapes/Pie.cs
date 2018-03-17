@@ -5,24 +5,32 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
     public class Pie : Shape
     {
-        protected readonly int width, height;
-        protected readonly float startAngle, sweepAngle;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public float StartAngle { get; set; }
+        public float SweepAngle { get; set; }
+
+        public Pie() : base() { }
 
         public Pie(int x, int y, int width, int height, float startAngle, float sweepAngle,
-            float penWidth, Color penColor, DashStyle penDashStyle) : base(x, y, penWidth, penColor,
+            float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor,
             penDashStyle)
         {
-            this.width = width;
-            this.height = height;
-            this.startAngle = startAngle;
-            this.sweepAngle = sweepAngle;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+            StartAngle = startAngle;
+            SweepAngle = sweepAngle;
         }
 
         public override void CreateShape()
         {
-            graphicsPath.StartFigure();
-            graphicsPath.AddPie(x, y, width, height, startAngle, sweepAngle);
-            graphicsPath.CloseFigure();
+            GraphicsPath.StartFigure();
+            GraphicsPath.AddPie(X, Y, Width, Height, StartAngle, SweepAngle);
+            GraphicsPath.CloseFigure();
         }
 
     }

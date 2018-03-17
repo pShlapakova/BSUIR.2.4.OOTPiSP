@@ -1,15 +1,13 @@
-﻿using System.Drawing;
+﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using Rectangle = _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes.Rectangle;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 {
     public partial class ShapeEditForm : Form
     {
-        private Shape _shape;
-
         #region Constant Values
 
         private const int LabelLeftMargin = 10;
@@ -27,12 +25,12 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         private int _penWidth = 1;
         private Color _penColor = Color.Black;
         private DashStyle _penDashStyle = DashStyle.Solid;
-        private int _locationX;
-        private int _locationY;
+        private int _x;
+        private int _y;
         private int _radius;
         private int _length;
-        private int _locationX2;
-        private int _locationY2;
+        private int _x2;
+        private int _y2;
         private int _width;
         private int _height;
         private float _startAngle;
@@ -150,22 +148,22 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         {            
             _locationXNumericUpDown.Location = new Point(InteractiveControlLeftMargin, _locationLabel.Location.Y);
             _locationXNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            _locationXNumericUpDown.Value = _locationX;
+            _locationXNumericUpDown.Value = _x;
             _locationXNumericUpDown.Maximum = 10000;
             Controls.Add(_locationXNumericUpDown);
 
-            _locationXNumericUpDown.ValueChanged += (sender, args) => _locationX = (int)_locationXNumericUpDown.Value;
+            _locationXNumericUpDown.ValueChanged += (sender, args) => _x = (int)_locationXNumericUpDown.Value;
         }
 
         private void LocationYNumericUpDownAdd()
         {            
             _locationYNumericUpDown.Location = new Point(InteractiveControlLeftMargin + _locationXNumericUpDown.Size.Width, _locationLabel.Location.Y);
             _locationYNumericUpDown.Size = new Size(NumericUpDownWidth, 14);
-            _locationYNumericUpDown.Value = _locationY;
+            _locationYNumericUpDown.Value = _y;
             _locationYNumericUpDown.Maximum = 10000;
             Controls.Add(_locationYNumericUpDown);
 
-            _locationYNumericUpDown.ValueChanged += (sender, args) => _locationY = (int)_locationYNumericUpDown.Value;
+            _locationYNumericUpDown.ValueChanged += (sender, args) => _y = (int)_locationYNumericUpDown.Value;
         }
 
         #endregion
@@ -188,23 +186,23 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             {
                 Location = new Point(InteractiveControlLeftMargin, location2Label.Location.Y),
                 Size = new Size(NumericUpDownWidth, 14),
-                Value = _locationX2,
+                Value = _x2,
                 Maximum = 10000
             };
             Controls.Add(location2XNumericUpDown);
 
-            location2XNumericUpDown.ValueChanged += (sender, args) => _locationX2 = (int)location2XNumericUpDown.Value;
+            location2XNumericUpDown.ValueChanged += (sender, args) => _x2 = (int)location2XNumericUpDown.Value;
 
             NumericUpDown location2YNumericUpDown = new NumericUpDown
             {
                 Location = new Point(InteractiveControlLeftMargin + location2XNumericUpDown.Size.Width, location2Label.Location.Y),
                 Size = new Size(NumericUpDownWidth, 14),
-                Value = _locationY2,
+                Value = _y2,
                 Maximum = 10000
             };
             Controls.Add(location2YNumericUpDown);
 
-            location2YNumericUpDown.ValueChanged += (sender, args) => _locationY2 = (int)location2YNumericUpDown.Value;
+            location2YNumericUpDown.ValueChanged += (sender, args) => _y2 = (int)location2YNumericUpDown.Value;
 
             #endregion            
 
@@ -437,127 +435,173 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             Size = new Size(_penDashStyleComboBox.Location.X + _penDashStyleComboBox.Size.Width + InteractiveControlRightMargin, Size.Height);
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Line tempLine) : this()
+        public ShapeEditForm(out Line line) : this()
         {
             Location2AllAdd();
 
+            line = new Line();
+            Line refToLine = line;
+            
             _drawButton.Click += (sender, args) =>
-            {
-                Line nline = new Line(_locationX, _locationY, _locationX2, _locationY2, _penWidth,
-                    _penColor, _penDashStyle);
-                _shape = nline;
-                DrawingTools.Draw(nline, drawingFieldPictureBox);
+            {                
+                refToLine.X1 = _x;
+                refToLine.Y2 = _y;
+                refToLine.X2 = _x2;
+                refToLine.Y2 = _y2;
+                refToLine.PenWidth = _penWidth;
+                refToLine.PenColor = _penColor;
+                refToLine.PenDashStyle = _penDashStyle;
 
                 Close();
-            };
-            tempLine = _shape as Line;            
+            };            
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Circle tempCircle) : this()
+        public ShapeEditForm(out Circle circle) : this()
         {
             RadiusAllAdd();
 
+            circle = new Circle();
+            Circle refToCircle = circle;
+
             _drawButton.Click += (sender, args) =>
             {
-                Circle ncircle = new Circle(_locationX, _locationY, _radius, _penWidth, _penColor,
-                    _penDashStyle);
-                _shape = ncircle;                
-                DrawingTools.Draw(ncircle, drawingFieldPictureBox);
+                refToCircle.X = _x;
+                refToCircle.Y = _y;
+                refToCircle.Radius = _radius;
+                refToCircle.PenWidth = _penWidth;
+                refToCircle.PenColor = _penColor;
+                refToCircle.PenDashStyle = _penDashStyle;
+
                 Close();
-            };
-            tempCircle = _shape as Circle;
+            };            
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Star tempStar) : this()
+        public ShapeEditForm(out Star star) : this()
         {
             RadiusAllAdd();
 
+            star = new Star();
+            Star refToStar = star;
+
             _drawButton.Click += (sender, args) =>
             {
-                Star nstar = new Star(_locationX, _locationY, _radius, _penWidth, _penColor,
-                    _penDashStyle);
-                _shape = nstar;                
-                DrawingTools.Draw(nstar, drawingFieldPictureBox);
+                refToStar.X = _y;
+                refToStar.Y = _y;
+                refToStar.Radius = _radius;
+                refToStar.PenWidth = _penWidth;
+                refToStar.PenColor = _penColor;
+                refToStar.PenDashStyle = _penDashStyle;
+
                 Close();
-            };
-            tempStar = _shape as Star;
+            };            
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Square tempSquare) : this()
+        public ShapeEditForm(out Square square) : this()
         {
             LengthAllAdd();
 
+            square = new Square();
+            Square refToSquare = square;
+
             _drawButton.Click += (sender, args) =>
             {
-                Square nsquare = new Square(_locationX, _locationY, _length, _penWidth, _penColor,
-                    _penDashStyle);
-                _shape = nsquare;                
-                DrawingTools.Draw(nsquare, drawingFieldPictureBox);
+                refToSquare.X = _x;
+                refToSquare.Y = _y;
+                refToSquare.Length = _length;
+                refToSquare.PenWidth = _penWidth;
+                refToSquare.PenColor = _penColor;
+                refToSquare.PenDashStyle = _penDashStyle;
+
                 Close();
-            };
-            tempSquare = _shape as Square;
+            };            
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Rectangle tempRectangle) : this()
+        public ShapeEditForm(out Rectangle rectangle) : this()
         {
             WidthHeightAllAdd();
 
+            rectangle = new Rectangle();
+            Rectangle refToRectangle = rectangle;
+
             _drawButton.Click += (sender, args) =>
             {
-                Rectangle nrectangle = new Rectangle(_locationX, _locationY, _width,
-                    _height, _penWidth, _penColor, _penDashStyle);
-                _shape = nrectangle;
-                DrawingTools.Draw(nrectangle, drawingFieldPictureBox);
+                refToRectangle.X = _x;
+                refToRectangle.Y = _y;
+                refToRectangle.Width = _width;
+                refToRectangle.Height = _height;
+                refToRectangle.PenWidth = _penWidth;
+                refToRectangle.PenColor = _penColor;
+                refToRectangle.PenDashStyle = _penDashStyle;
+
                 Close();
-            };
-            tempRectangle = _shape as Rectangle;
+            };            
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Ellipse tempEllipse) : this()
+        public ShapeEditForm(out Ellipse ellipse) : this()
         {
             WidthHeightAllAdd();
 
+            ellipse = new Ellipse();
+            Ellipse refToEllipse = ellipse;
+
             _drawButton.Click += (sender, args) =>
             {
-                Ellipse nellipse = new Ellipse(_locationX, _locationY, _width, _height, _penWidth,
-                    _penColor, _penDashStyle);
-                _shape = nellipse;
-                //_shape.Draw();
-                DrawingTools.Draw(nellipse, drawingFieldPictureBox);
+                refToEllipse.X = _x;
+                refToEllipse.Y = _y;
+                refToEllipse.Width = _width;
+                refToEllipse.Height = _height;
+                refToEllipse.PenWidth = _penWidth;
+                refToEllipse.PenColor = _penColor;
+                refToEllipse.PenDashStyle = _penDashStyle;
+
                 Close();
-            };
-            tempEllipse = _shape as Ellipse;
+            };            
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Arc tempArc) : this()
+        public ShapeEditForm(out Arc arc) : this()
         {
             WidthHeightStartAngleSweepAngleAllAdd();
 
+            arc = new Arc();
+            Arc refToArc = arc;
+
             _drawButton.Click += (sender, args) =>
             {
-                Arc narc = new Arc(_locationX, _locationY, _width, _height, _startAngle, _sweepAngle,
-                    _penWidth, _penColor, _penDashStyle);
-                _shape = narc;
-                //_shape.Draw();
-                DrawingTools.Draw(narc, drawingFieldPictureBox);
+                refToArc.X = _x;
+                refToArc.Y = _y;
+                refToArc.Width = _width;
+                refToArc.Height = _height;
+                refToArc.StartAngle = _startAngle;
+                refToArc.SweepAngle = _sweepAngle;
+                refToArc.PenWidth = _penWidth;
+                refToArc.PenColor = _penColor;
+                refToArc.PenDashStyle = _penDashStyle;
+
                 Close();
-            };
-            tempArc = _shape as Arc;
+            };            
         }
 
-        public ShapeEditForm(PictureBox drawingFieldPictureBox, out Pie tempPie) : this()
+        public ShapeEditForm(out Pie pie) : this()
         {
             WidthHeightStartAngleSweepAngleAllAdd();
 
+            pie = new Pie();
+            Pie refToPie = pie;
+
             _drawButton.Click += (sender, args) =>
             {
-                Pie npie = new Pie(_locationX, _locationY, _width, _height, _startAngle, _sweepAngle,
-                    _penWidth, _penColor, _penDashStyle);
-                _shape = npie;
-                DrawingTools.Draw(npie, drawingFieldPictureBox);
+                refToPie.X = _x;
+                refToPie.Y = _y;
+                refToPie.Width = _width;
+                refToPie.Height = _height;
+                refToPie.StartAngle = _startAngle;
+                refToPie.SweepAngle = _sweepAngle;
+                refToPie.PenWidth = _penWidth;
+                refToPie.PenColor = _penColor;
+                refToPie.PenDashStyle = _penDashStyle;
+
                 Close();
-            };
-            tempPie = _shape as Pie;
+            };            
         }
     }
 }

@@ -5,12 +5,16 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
     public class Square : Rectangle
     {
-        protected readonly int length;
-
-        public Square(int x, int y, int length, float penWidth, Color penColor, DashStyle penDashStyle) : base(x, y,
-            length, length, penWidth, penColor, penDashStyle)
+        public int Length
         {
-            this.length = length;
+            get { return Width; }
+            
+            set { Width = Height = value; }
         }
+
+        public Square() : base() { }
+
+        public Square(int x, int y, int length, float penWidth, Color penColor, DashStyle penDashStyle)
+            : base(x, y, length, length, penWidth, penColor, penDashStyle) { }
     }
 }

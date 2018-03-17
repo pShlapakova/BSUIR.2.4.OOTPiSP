@@ -1,43 +1,47 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using static System.Math;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
     public class Star : Shape
     {
-        protected readonly int radius;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Radius { get; set; }
 
-        public Star(int x, int y, int radius, float penWidth, Color penColor, DashStyle penDashStyle) : base(x, y,
-            penWidth, penColor, penDashStyle)
+        public Star() : base() { }
+
+        public Star(int x, int y, int radius, float penWidth, Color penColor, DashStyle penDashStyle)
+            : base(penWidth, penColor, penDashStyle)
         {
-            this.radius = radius;
-        }
-
-        private Point GetPositionInCircle(Point center, int radius, double angle)
-        {
-            int resultX = (int) (center.X + Math.Cos(angle) * radius);
-            int resultY = (int) (center.Y - Math.Sin(angle) * radius);
-
-            return new Point(resultX, resultY);            
-        }
+            X = x;
+            Y = y;
+            Radius = radius;
+        }        
 
         public override void CreateShape()
         {
-            Point center = new Point(x + radius, y + radius);
+            Point starCenter = new Point(X + Radius, Y + Radius);
+            double currAngle = PI / 2;
 
-            double currAngle = Math.PI / 2;
-
-            graphicsPath.StartFigure();
+            GraphicsPath.StartFigure();
 
             for (int i = 0; i < 5; i++)
             {
-                graphicsPath.AddLine(GetPositionInCircle(center, radius, currAngle),
-                    GetPositionInCircle(center, radius, currAngle + 4 * Math.PI / 5));
-                currAngle += 4 * Math.PI / 5;
+                GraphicsPath.AddLine(GetPointOnCircle(starCenter, Radius, currAngle),
+                    GetPointOnCircle(starCenter, Radius, currAngle += 4 * PI / 5));                
             }
 
-            graphicsPath.CloseFigure();
+            GraphicsPath.CloseFigure();
+
+            Point GetPointOnCircle(Point center, int radius, double angle)
+            {
+                int x = (int)(center.X + Cos(angle) * radius);
+                int y = (int)(center.Y - Sin(angle) * radius);
+
+                return new Point(x, y);
+            }
         }
     }
 }

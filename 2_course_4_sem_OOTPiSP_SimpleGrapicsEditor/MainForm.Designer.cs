@@ -54,7 +54,7 @@
             this.DrawingFieldPictureBox.Name = "DrawingFieldPictureBox";
             this.DrawingFieldPictureBox.Size = new System.Drawing.Size(820, 578);
             this.DrawingFieldPictureBox.TabIndex = 0;
-            this.DrawingFieldPictureBox.TabStop = false;
+            this.DrawingFieldPictureBox.TabStop = false;            
             this.DrawingFieldPictureBox.MouseLeave += new System.EventHandler(this.DrawingFieldPictureBox_MouseLeave);
             this.DrawingFieldPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DrawingFieldPictureBox_MouseMove);
             // 
@@ -192,8 +192,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(320, 230);
             this.Name = "MainForm";
-            this.Text = "Simple Graphics Editor";
-            this.MouseEnter += new System.EventHandler(this.MainForm_MouseEnter);
+            this.Text = "Simple Graphics Editor";            
             ((System.ComponentModel.ISupportInitialize)(this.DrawingFieldPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -5,7 +5,17 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
 {
     public class Circle : Ellipse
     {
+        public int Radius
+        {
+            get { return Width; }
+
+            set { Width = Height = value; }
+        }
+
+        public Circle() : base() { }
+
         public Circle(int x, int y, int radius, float penWidth, Color penColor,
-            DashStyle penDashStyle) : base(x, y, 2 * radius, 2 * radius, penWidth, penColor, penDashStyle) { }
+            DashStyle penDashStyle) : base(x, y, 2 * radius, 2 * radius, penWidth,
+            penColor, penDashStyle) { }
     }
 }

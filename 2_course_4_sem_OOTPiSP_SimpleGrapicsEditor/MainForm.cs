@@ -1,7 +1,7 @@
 ﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
 using System;
-using System.Drawing;
 using System.Windows.Forms;
+using Rectangle = _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes.Rectangle;
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 {
@@ -10,121 +10,94 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         public MainForm()
         {
             InitializeComponent();            
-        }
-
-        //private Bitmap TempBitmap;
+        }        
 
         #region События
 
         #region DrawingFieldPictureBox
 
-        #region Mouse Position Printing
+        #region Cursor Position Printing
 
         private void DrawingFieldPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             CurrentMousePositionTextBox.Text = $"{MousePosition.X - Location.X - 8}, {MousePosition.Y - Location.Y - 27}";
-
+        }
             
-            //Graphics graphics = Graphics.FromImage(TempBitmap);
-
-            //GraphicsPath graphicsPath = new GraphicsPath();
-
-            //graphicsPath.StartFigure();
-
-            //graphicsPath.AddLine(MousePosition.X, 0, MousePosition.X, TempBitmap.Height);
-            //graphicsPath.StartFigure();
-            //graphicsPath.AddLine(0, MousePosition.Y, TempBitmap.Width, MousePosition.Y);
-            //graphicsPath.CloseAllFigures();
-
-            //graphics.DrawPath(new Pen(Color.Black, 1), graphicsPath);
-            
-        }
-
-        private void DrawingFieldPictureBox_MouseLeave(object sender, EventArgs e)
-        {
-            CurrentMousePositionTextBox.Clear();
-
-            //DrawingFieldPictureBox.Image = TempBitmap;
-
-        }
-
-        private void MainForm_MouseEnter(object sender, EventArgs e)
-        {
-            //TempBitmap = DrawingFieldPictureBox.Image != null
-            //    ? new Bitmap(DrawingFieldPictureBox.Image, DrawingFieldPictureBox.Image.Width, DrawingFieldPictureBox.Image.Height)
-            //    : new Bitmap(DrawingFieldPictureBox.Width, DrawingFieldPictureBox.Height);            
-        }
+        private void DrawingFieldPictureBox_MouseLeave(object sender, EventArgs e) => CurrentMousePositionTextBox.Clear();
 
         #endregion
 
         #endregion
+
+        #region Buttons
 
         #region DrawSomething Buttons
 
         private void DrawLineButton_Click(object sender, EventArgs e)
-        {
-            Line line;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out line);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Line line);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(line, DrawingFieldPictureBox);            
         }
 
         private void DrawRectangleButton_Click(object sender, EventArgs e)
-        {
-            Shapes.Rectangle rectangle;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out rectangle);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Rectangle rectangle);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(rectangle, DrawingFieldPictureBox);
         }
 
         private void DrawEllipseButton_Click(object sender, EventArgs e)
-        {
-            Ellipse ellipse;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out ellipse);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Ellipse ellipse);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(ellipse, DrawingFieldPictureBox);
         }
 
         private void DrawCircleButton_Click(object sender, EventArgs e)
-        {
-            Circle circle;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out circle);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Circle circle);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(circle, DrawingFieldPictureBox);
         }
 
         private void DrawArcButton_Click(object sender, EventArgs e)
-        {
-            Arc arc;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out arc);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Arc arc);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(arc, DrawingFieldPictureBox);
         }
 
         private void DrawPieButton_Click(object sender, EventArgs e)
-        {
-            Pie pie;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out pie);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Pie pie);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(pie, DrawingFieldPictureBox);
         }
 
         private void DrawStarButton_Click(object sender, EventArgs e)
-        {
-            Star star;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out star);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Star star);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(star, DrawingFieldPictureBox);
         }
 
         private void DrawSquareButton_Click(object sender, EventArgs e)
-        {
-            Square square;
-            ShapeEditForm shapeEditForm = new ShapeEditForm(DrawingFieldPictureBox, out square);
+        {            
+            ShapeEditForm shapeEditForm = new ShapeEditForm(out Square square);
             shapeEditForm.ShowDialog();
+            DrawingTools.Draw(square, DrawingFieldPictureBox);
         }
 
         #endregion
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            DrawingTools.ClearControl(DrawingFieldPictureBox);
-            //DrawingTools.ClearControl(ClearButton);
+            DrawingTools.ClearPictureBox(DrawingFieldPictureBox);            
         }
-        
-        #endregion        
+
+        #endregion
+
+        #endregion
     }
 }
