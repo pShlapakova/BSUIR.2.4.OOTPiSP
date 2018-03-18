@@ -47,6 +47,9 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         }
         */
 
+        // Когда добавлю функцию редактирования фигур и рисование списка,
+        // проверить, что с GraphicsPath. (ведь путь будет сохраняться старый)
+
         public static void Draw(Shape shape, PictureBox pictureBox)
         {
             const int bmpWidth = 3000, bmpHeight = 3000;
