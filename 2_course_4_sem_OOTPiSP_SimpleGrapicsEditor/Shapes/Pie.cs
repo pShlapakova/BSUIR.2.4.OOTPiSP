@@ -33,5 +33,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             GraphicsPath.CloseFigure();
         }
 
+        public override string ToString()
+        {
+            return $"Pie({X},{Y}; {Width},{Height}; {StartAngle},{SweepAngle}; {PenWidth}, {PenColor}, {PenDashStyle})";
+        }
+
     }
 }

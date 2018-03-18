@@ -43,5 +43,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
                 return new Point(x, y);
             }
         }
+
+        public override string ToString()
+        {
+            return $"Star({X},{Y}; {Radius}; {PenWidth}, {PenColor}, {PenDashStyle})";
+        }
     }
 }

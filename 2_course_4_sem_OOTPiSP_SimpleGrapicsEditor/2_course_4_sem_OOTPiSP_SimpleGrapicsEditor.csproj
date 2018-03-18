@@ -60,7 +60,6 @@
     <Compile Include="ShapeEditForm.Designer.cs">
       <DependentUpon>ShapeEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ShapeList.cs" />
     <Compile Include="Shapes\Arc.cs" />
     <Compile Include="Shapes\Circle.cs" />
     <Compile Include="Shapes\Ellipse.cs" />

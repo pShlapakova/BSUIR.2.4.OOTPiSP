@@ -27,5 +27,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             GraphicsPath.AddLine(X1, Y1, X2, Y2);
             GraphicsPath.CloseFigure();
         }
+
+        public override string ToString()
+        {
+            return $"Line({X1},{Y1}; {X2},{Y2}; {PenWidth}, {PenColor}, {PenDashStyle})";
+        }
     }
 }

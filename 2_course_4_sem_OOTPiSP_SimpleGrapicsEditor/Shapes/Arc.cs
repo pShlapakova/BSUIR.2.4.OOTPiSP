@@ -32,5 +32,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             GraphicsPath.AddArc(X, Y, Width, Height, StartAngle, SweepAngle);
             GraphicsPath.CloseFigure();
         }
+
+        public override string ToString()
+        {
+            return $"Arc({X},{Y}; {Width},{Height}; {StartAngle},{SweepAngle}; {PenWidth}, {PenColor}, {PenDashStyle})";
+        }
     }
 }

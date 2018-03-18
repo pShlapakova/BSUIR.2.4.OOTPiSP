@@ -27,5 +27,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             GraphicsPath.AddRectangle(new System.Drawing.Rectangle(X, Y, Width, Height));
             GraphicsPath.CloseFigure();
         }
+
+        public override string ToString()
+        {
+            return $"Rectangle({X},{Y}; {Width},{Height}; {PenWidth}, {PenColor}, {PenDashStyle})";
+        }
     }
 }

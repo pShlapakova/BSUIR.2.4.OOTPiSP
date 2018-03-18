@@ -27,5 +27,10 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
             GraphicsPath.AddEllipse(X, Y, Width, Height);
             GraphicsPath.CloseFigure();
         }
+
+        public override string ToString()
+        {
+            return $"Ellipse({X},{Y}; {Width},{Height}; {PenWidth}, {PenColor}, {PenDashStyle})";
+        }
     }
 }
