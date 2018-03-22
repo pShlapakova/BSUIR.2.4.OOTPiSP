@@ -1,35 +1,122 @@
-﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Rectangle = _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes.Rectangle;
-using static _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.DrawingTools;
-
-namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
+﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 {
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Text;
+    using System.Windows.Forms;
+    using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+    using Rectangle = Shapes.Rectangle;
+
+    /// <summary>
+    /// Main window of the software.
+    /// </summary>
     public partial class MainForm : Form
     {
-        //private List<Shape> shapeList = new List<Shape>();
-            
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainForm"/> class and sets some
+        /// necessary parameters inside.
+        /// </summary>
         public MainForm()
         {
-            InitializeComponent();
-        }        
+            this.InitializeComponent();
 
-        #region События
+            this.ioTools = new IoTools(this.ShapeListBox);
+
+            this.saveToolStripMenuItem.Enabled = false;
+
+            this.ShapeListBox.ContextMenuStrip = this.ShapeListBoxContextMenuStrip;
+            this.ClearShapeListToolStripMenuItem.Click += this.ClearShapeListToolStripMenuItemClick;
+        }
+
+        #endregion
+                        
+        #region Events
+
+        #region MainForm
+
+        private void MainFormFormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.ioTools.Exit(out bool stopClosing);
+
+            e.Cancel = stopClosing;
+        }
+
+        #endregion
 
         #region DrawingFieldPictureBox
 
         #region Cursor Position Printing
 
-        private void DrawingFieldPictureBox_MouseMove(object sender, MouseEventArgs e)
+        private void DrawingFieldPictureBoxMouseMove(object sender, MouseEventArgs e)
         {
-            CurrentMousePositionTextBox.Text = $"{MousePosition.X - Location.X - 8}, {MousePosition.Y - Location.Y - 27}";
+            this.CurrentMousePositionTextBox.Text = $"{MousePosition.X - this.Location.X - 8}, {MousePosition.Y - this.Location.Y - 27}";
         }
             
-        private void DrawingFieldPictureBox_MouseLeave(object sender, EventArgs e) => CurrentMousePositionTextBox.Clear();
+        private void DrawingFieldPictureBoxMouseLeave(object sender, EventArgs e) => this.CurrentMousePositionTextBox.Clear();
 
         #endregion
+
+        #endregion
+
+        #region ShapeListBoxContextMenuStrip
+
+        private void ClearShapeListToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if (this.ShapeListBox.Items.Count > 0)
+            {
+                this.ShapeListBox.Items.Clear();
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
+            }
+
+        }
+
+        #endregion
+
+        #region MenuStrip
+
+        private void NewToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            this.ioTools.New(out bool successfully);
+            if (successfully)
+            {
+                this.DisableSaving();
+            }
+        }
+
+        private void OpenToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            this.ioTools.Open(out bool successfully);
+            if (successfully)
+            {
+                this.DisableSaving();
+            }
+        }
+
+        private void SaveToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            this.ioTools.Save(out bool successfully);
+            if (successfully)
+            {
+                this.DisableSaving();
+            }
+        }
+
+        private void SaveAsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            this.ioTools.SaveAs(out bool successfully);
+            if (successfully)
+            {
+                this.DisableSaving();
+            }
+        }
+
+        private void ExitToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         #endregion
 
@@ -37,83 +124,99 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
         #region AddShape Buttons
 
-        private void AddLineButton_Click(object sender, EventArgs e)
+        private void AddLineButtonClick(object sender, EventArgs e)
         {
             Line line = new Line();
             ShapeEditForm shapeEditForm = new ShapeEditForm(line);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(line);                
+                this.ShapeListBox.Items.Add(line);                
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }            
         }
 
-        private void AddRectangleButton_Click(object sender, EventArgs e)
+        private void AddRectangleButtonClick(object sender, EventArgs e)
         {
             Rectangle rectangle = new Rectangle();
             ShapeEditForm shapeEditForm = new ShapeEditForm(rectangle);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(rectangle);
+                this.ShapeListBox.Items.Add(rectangle);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
-        private void AddEllipseButton_Click(object sender, EventArgs e)
+        private void AddEllipseButtonClick(object sender, EventArgs e)
         {
             Ellipse ellipse = new Ellipse();
             ShapeEditForm shapeEditForm = new ShapeEditForm(ellipse);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(ellipse);
+                this.ShapeListBox.Items.Add(ellipse);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
-        private void AddCircleButton_Click(object sender, EventArgs e)
+        private void AddCircleButtonClick(object sender, EventArgs e)
         {
             Circle circle = new Circle();
             ShapeEditForm shapeEditForm = new ShapeEditForm(circle);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(circle);
+                this.ShapeListBox.Items.Add(circle);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
-        private void AddArcButton_Click(object sender, EventArgs e)
+        private void AddArcButtonClick(object sender, EventArgs e)
         {
             Arc arc = new Arc();
             ShapeEditForm shapeEditForm = new ShapeEditForm(arc);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(arc);
+                this.ShapeListBox.Items.Add(arc);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
-        private void AddPieButton_Click(object sender, EventArgs e)
+        private void AddPieButtonClick(object sender, EventArgs e)
         {
             Pie pie = new Pie();
             ShapeEditForm shapeEditForm = new ShapeEditForm(pie);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(pie);
+                this.ShapeListBox.Items.Add(pie);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
-        private void AddStarButton_Click(object sender, EventArgs e)
+        private void AddStarButtonClick(object sender, EventArgs e)
         {
             Star star = new Star();
             ShapeEditForm shapeEditForm = new ShapeEditForm(star);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(star);
+                this.ShapeListBox.Items.Add(star);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
-        private void AddSquareButton_Click(object sender, EventArgs e)
+        private void AddSquareButtonClick(object sender, EventArgs e)
         {
             Square square = new Square();
             ShapeEditForm shapeEditForm = new ShapeEditForm(square);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
-                ShapeListBox.Items.Add(square);
+                this.ShapeListBox.Items.Add(square);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
@@ -121,50 +224,102 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 
         #region Buttons that working with ShapeListBox
 
-        private void EditShapeButton_Click(object sender, EventArgs e)
+        private void EditShapeButtonClick(object sender, EventArgs e)
         {
-            dynamic shape = ShapeListBox.SelectedItem;
+            string strForComparing = this.ShapeListBox.SelectedItem.ToString();
+            dynamic shape = this.ShapeListBox.SelectedItem;
             ShapeEditForm shapeEditForm = new ShapeEditForm(shape);
             if (shapeEditForm.ShowDialog() == DialogResult.OK)
             {
                 // To rewrite text
-                int index = ShapeListBox.SelectedIndex;
-                ShapeListBox.Items.RemoveAt(index);
-                ShapeListBox.Items.Insert(index, shape);
+                int index = this.ShapeListBox.SelectedIndex;
+                this.ShapeListBox.Items.RemoveAt(index);
+                this.ShapeListBox.Items.Insert(index, shape);
+
+                if (strForComparing != shape.ToString())
+                {
+                    this.EnableSaving();
+                    this.ioTools.ThereIsChanges = true;
+                }
             }
         }
 
-        private void DeleteShapeButton_Click(object sender, EventArgs e)
+        private void DeleteShapeButtonClick(object sender, EventArgs e)
         {
-            if (ShapeListBox.SelectedItem != null)
+            if (this.ShapeListBox.SelectedItem != null)
             {
-                ShapeListBox.Items.RemoveAt(ShapeListBox.SelectedIndex);
+                this.ShapeListBox.Items.RemoveAt(this.ShapeListBox.SelectedIndex);
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
             }
         }
 
-        private void SortListButton_Click(object sender, EventArgs e)
+        private void SortListButtonClick(object sender, EventArgs e)
         {
-            Shape[] bufShapeArray = new Shape[ShapeListBox.Items.Count];
-            ShapeListBox.Items.CopyTo(bufShapeArray, 0);
-            ShapeListBox.Items.Clear();
+            string strToCompare = ListToString(this.ShapeListBox);
+
+            Shape[] bufShapeArray = new Shape[this.ShapeListBox.Items.Count];
+            this.ShapeListBox.Items.CopyTo(bufShapeArray, 0);
+            this.ShapeListBox.Items.Clear();
             Array.Sort(bufShapeArray);
-            ShapeListBox.Items.AddRange(bufShapeArray);
+            this.ShapeListBox.Items.AddRange(bufShapeArray);
+
+            if (strToCompare != ListToString(this.ShapeListBox))
+            {
+                this.EnableSaving();
+                this.ioTools.ThereIsChanges = true;
+            }
+
+            string ListToString(ListBox shapeListBox)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (Shape shape in shapeListBox.Items)
+                {
+                    sb.Append(shape.ToString());
+                }
+
+                return sb.ToString();
+            }
         }
 
-        private void DrawListButton_Click(object sender, EventArgs e)
+
+        private void DrawListButtonClick(object sender, EventArgs e)
         {
-            DrawAll(GetShapes(ShapeListBox), DrawingFieldPictureBox);
+            DrawingTools.DrawAll(DrawingTools.GetShapes(this.ShapeListBox), this.DrawingFieldPictureBox);
         }
 
         #endregion
 
-        private void ClearCanvasButton_Click(object sender, EventArgs e)
+        private void ClearCanvasButtonClick(object sender, EventArgs e)
         {
-            ClearPictureBox(DrawingFieldPictureBox);
+            DrawingTools.ClearPictureBox(this.DrawingFieldPictureBox);
         }
 
         #endregion
 
-        #endregion              
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// Used for interactio with file system.
+        /// </summary>
+        private readonly IoTools ioTools;
+
+        #endregion
+
+        #region Methods
+
+        private void DisableSaving()
+        {
+            this.saveToolStripMenuItem.Enabled = false;
+        }
+
+        private void EnableSaving()
+        {
+            this.saveToolStripMenuItem.Enabled = true;
+        }
+
+        #endregion
     }
 }

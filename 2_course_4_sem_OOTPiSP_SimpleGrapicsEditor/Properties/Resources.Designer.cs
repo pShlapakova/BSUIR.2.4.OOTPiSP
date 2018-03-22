@@ -10,8 +10,9 @@
 
 namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties {
     using System;
-    
-    
+    using System.Globalization;
+    using System.Resources;
+
     /// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
@@ -24,44 +25,49 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties {
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
         
-        private static global::System.Resources.ResourceManager resourceMan;
+        private static ResourceManager resourceMan;
         
-        private static global::System.Globalization.CultureInfo resourceCulture;
+        private static CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
         
+
         /// <summary>
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        internal static ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("_2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties.Resources", typeof(Resources).Assembly);
+                    ResourceManager temp = new global::System.Resources.ResourceManager("_2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
+
                 return resourceMan;
             }
         }
         
+
         /// <summary>
         ///   Перезаписывает свойство CurrentUICulture текущего потока для всех
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        internal static CultureInfo Culture {
             get {
                 return resourceCulture;
             }
+
             set {
                 resourceCulture = value;
             }
         }
         
+
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Pen Width:.
+        ///   Ищет локализованную строку, похожую на _Pen Width:.
         /// </summary>
         internal static string ShapeEditForm_PenWidthLabel_Text {
             get {

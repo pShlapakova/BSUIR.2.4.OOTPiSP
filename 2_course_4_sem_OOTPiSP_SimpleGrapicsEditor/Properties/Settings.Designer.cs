@@ -17,7 +17,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
     {
 
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static Settings defaultInstance = (Settings)global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings());
 
         public static Settings Default
         {

@@ -1,71 +1,39 @@
-﻿using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
+﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
 {
-    static class DrawingTools
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+
+    /// <summary>
+    /// Defines methods for drawing <see cref="Shape"/>-inherited geometric figures
+    /// and general working with <see cref="Shape"/> collections.
+    /// </summary>
+    public static class DrawingTools
     {
         /// <summary>
-        /// Returns PictureBox to its initial state.
+        /// Clears the entire PictureBox drawing surface.
         /// </summary>
-        /// <param name="pictureBox"></param>
+        /// <param name="pictureBox">Drawing surface.</param>
         public static void ClearPictureBox(PictureBox pictureBox)
         {
-            pictureBox.Image = null;
-
-            // Здесь, в отличие от метода Draw(), проблема стирания не страшна, но для цвета BackColor наверное быстрее будет Image = null
-            //Graphics graphics = pictureBox.CreateGraphics();
-            //graphics.Clear(pictureBox.BackColor);
+            pictureBox.Image = null;                        
         }
-
-        /*
-        public static void ClearControl(Control control)
-        {
-            try
-            {
-                if (!(control is PictureBox))
-                {
-                    throw new Exception("Control has not an 'Image' field");
-                }
-
-                ((PictureBox)control).Image = null;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message + ' ' + e.StackTrace, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (control is PictureBox)
-                {
-                    MessageBox.Show("Успешно", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Неудача", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-            }
-        }
-        */
-
-        // Когда добавлю функцию редактирования фигур и рисование списка,
-        // проверить, что с GraphicsPath. (ведь путь будет сохраняться старый)
 
         /// <summary>
-        /// Draws Shape on PictureBox as Bitmap image. Previous drawings aren't deleting.
+        /// Draws <see cref="Shape"/>-inherited geometric figure
+        /// on <see cref="PictureBox"/> as <see cref="Bitmap"/> image. Previous drawings aren't deleting.
         /// </summary>
-        /// <param name="shape"></param>
-        /// <param name="pictureBox"></param>
+        /// <param name="shape">Geometric figure object.</param>
+        /// <param name="pictureBox">Drawing surface.</param>
         public static void Draw(Shape shape, PictureBox pictureBox)
         {
-            const int bmpWidth = 3000, bmpHeight = 3000;
+            const int BmpWidth = 3000;
+            const int BmpHeight = 3000;
 
             Bitmap bitmap = pictureBox.Image != null
                 ? new Bitmap(pictureBox.Image, pictureBox.Image.Width, pictureBox.Image.Height)
-                : new Bitmap(bmpWidth, bmpHeight);            
+                : new Bitmap(BmpWidth, BmpHeight);
 
             Graphics graphics = Graphics.FromImage(bitmap);
             shape.CreateShape();
@@ -74,16 +42,16 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
             pictureBox.Image = bitmap;
 
             // При использовании CreateGraphics() стирается рисунок при перекрывании его другими окнами, при сворачивании, при ресайзе
-            //Graphics graphics = control.CreateGraphics();
-            //shape.CreateShape();
-            //graphics.DrawPath(shape.GetPen, shape.GetGraphicsPath);
+            // Graphics graphics = control.CreateGraphics();
+            // shape.CreateShape();
+            // graphics.DrawPath(shape.GetPen, shape.GetGraphicsPath);
         }
 
         /// <summary>
-        /// Draws List of Shapes using Draw() method in loop.
+        /// Draws list of <see cref="Shape"/>-inherited geometric figures using <see cref="Draw"/> method.
         /// </summary>
-        /// <param name="shapeList"></param>
-        /// <param name="pictureBox"></param>
+        /// <param name="shapeList">The list of geometric figures objects.</param>
+        /// <param name="pictureBox">Drawing surface.</param>
         public static void DrawAll(IEnumerable<Shape> shapeList, PictureBox pictureBox)
         {
             foreach (Shape shape in shapeList)
@@ -93,17 +61,17 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
         }
 
         /// <summary>
-        /// Returns collection of Shapes as IEnumerable<Shape>. (ShapeListBox.Items has ObjectCollection
-        /// type that aren't IEnumerable)
+        /// Returns collection of <see cref="Shape"/>-inherited geometric figures.        
         /// </summary>
-        /// <param name="shapeListBox"></param>
-        /// <returns></returns>
+        /// <param name="shapeListBox">ListBox that contains <see cref="ListBox.ObjectCollection"/>
+        /// of <see cref="Shape"/>-inherited geometric figures.</param>
+        /// <returns>Collection of <see cref="Shape"/>-inherited geometric figures. </returns>
         public static IEnumerable<Shape> GetShapes(ListBox shapeListBox)
         {
             foreach (Shape shape in shapeListBox.Items)
             {
                 yield return shape;
             }
-        }
+        }        
     }
 }
