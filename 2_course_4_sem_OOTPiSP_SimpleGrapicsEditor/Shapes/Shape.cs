@@ -145,8 +145,7 @@
             // To prevent NullReferenceException caused by deserialization.
             if (GraphicsPath == null)
             {
-                GraphicsPath = new GraphicsPath();
-                
+                GraphicsPath = new GraphicsPath();                
             }
 
             // Delete old figure from path

@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrawingTools.cs" />
-    <Compile Include="IOTools.cs" />
+    <Compile Include="Tools\DrawingTools.cs" />
+    <Compile Include="Tools\IoTools.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,13 +102,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Icons\Application.ico" />
     <Content Include="Icons\ArcButton.png" />
     <Content Include="Icons\CircleButton.png" />
     <Content Include="Icons\EllipseButton.png" />
     <Content Include="Icons\LineButton.png" />
     <Content Include="Icons\PieButton.png" />
     <Content Include="Icons\RectangleButton.png" />
+    <Content Include="Icons\SimpleGraphicsEditor.ico" />
     <Content Include="Icons\Square.png" />
     <Content Include="Icons\Star.png" />
   </ItemGroup>

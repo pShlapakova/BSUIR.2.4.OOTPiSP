@@ -2,8 +2,9 @@
 {
     using System;
     using System.Drawing;
-    using System.Drawing.Drawing2D;
+    using System.Drawing.Drawing2D;    
     using System.Windows.Forms;
+    using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties;
     using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
     using Rectangle = Shapes.Rectangle;
 
@@ -46,9 +47,9 @@
         public ShapeEditForm(Line line) : this()
         {
             this.AddCommonControls((int)line.PenWidth, line.PenColor, line.PenDashStyle);
-
-            this.AddLabel(nameof(line.X1));
-            this.AddNumericUpDown(nameof(line.X1), line.X1, 0, 5000);
+                        
+            this.AddLabel(Resources.X1);
+            this.AddNumericUpDown(Resources.X1, line.X1, 0, 5000);
             this.AddLabel(nameof(line.Y1));
             this.AddNumericUpDown(nameof(line.Y1), line.Y1, 0, 5000);
             this.AddLabel(nameof(line.X2));
@@ -476,6 +477,6 @@
             this.AddDashStyleComboBox("PenDashStyle", penDashStyle);
         }
 
-        #endregion    
+        #endregion        
     }
 }

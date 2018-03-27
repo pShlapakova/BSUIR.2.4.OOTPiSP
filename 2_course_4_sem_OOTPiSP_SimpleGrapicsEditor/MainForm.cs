@@ -51,7 +51,7 @@
 
         private void DrawingFieldPictureBoxMouseMove(object sender, MouseEventArgs e)
         {
-            this.CurrentMousePositionTextBox.Text = $"{MousePosition.X - this.Location.X - 8}, {MousePosition.Y - this.Location.Y - 27}";
+            this.CurrentMousePositionTextBox.Text = $"{MousePosition.X - this.Location.X - 8}, {MousePosition.Y - this.Location.Y - 54}";
         }
             
         private void DrawingFieldPictureBoxMouseLeave(object sender, EventArgs e) => this.CurrentMousePositionTextBox.Clear();

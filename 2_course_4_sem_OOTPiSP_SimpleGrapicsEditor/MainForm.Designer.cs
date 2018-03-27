@@ -334,12 +334,12 @@
             this.ShapeListBoxContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ClearShapeListToolStripMenuItem});
             this.ShapeListBoxContextMenuStrip.Name = "ShapeListBoxContextMenuStrip";
-            this.ShapeListBoxContextMenuStrip.Size = new System.Drawing.Size(181, 48);
+            this.ShapeListBoxContextMenuStrip.Size = new System.Drawing.Size(100, 26);
             // 
             // ClearShapeListToolStripMenuItem
             // 
             this.ClearShapeListToolStripMenuItem.Name = "ClearShapeListToolStripMenuItem";
-            this.ClearShapeListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ClearShapeListToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.ClearShapeListToolStripMenuItem.Text = "Clear";
             // 
             // MainForm
