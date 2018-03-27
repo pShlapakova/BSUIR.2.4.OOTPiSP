@@ -1,11 +1,11 @@
-﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
+﻿namespace SimpleGrapicsEditor.Tools
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization.Json;
     using System.Windows.Forms;
-    using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+    using SimpleGrapicsEditor.Shapes;
 
     public class IoTools
     {

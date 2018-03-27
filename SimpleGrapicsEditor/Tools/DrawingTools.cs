@@ -1,9 +1,9 @@
-﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
+﻿namespace SimpleGrapicsEditor.Tools
 {
     using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
-    using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+    using SimpleGrapicsEditor.Shapes;
 
     /// <summary>
     /// Defines methods for drawing <see cref="Shape"/>-inherited geometric figures

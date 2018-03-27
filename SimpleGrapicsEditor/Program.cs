@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
+namespace SimpleGrapicsEditor
 {
     static class Program
     {

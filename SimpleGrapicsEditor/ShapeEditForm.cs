@@ -1,11 +1,11 @@
-﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
+﻿namespace SimpleGrapicsEditor
 {
     using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;    
     using System.Windows.Forms;
-    using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties;
-    using _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes;
+    using SimpleGrapicsEditor.Properties;
+    using SimpleGrapicsEditor.Shapes;
     using Rectangle = Shapes.Rectangle;
 
     /// <summary>

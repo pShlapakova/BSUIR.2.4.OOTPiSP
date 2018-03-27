@@ -1,4 +1,4 @@
-﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor
+﻿namespace SimpleGrapicsEditor
 {
     using System.ComponentModel;
     using System.Windows.Forms;

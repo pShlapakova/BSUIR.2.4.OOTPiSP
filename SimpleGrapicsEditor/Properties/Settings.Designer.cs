@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties
+namespace SimpleGrapicsEditor.Properties
 {
 
 

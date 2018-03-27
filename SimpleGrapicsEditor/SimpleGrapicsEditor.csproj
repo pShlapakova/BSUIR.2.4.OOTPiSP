@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B5A0A37E-8E25-42D4-8E73-FDEF2ADD4C25}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>_2_course_4_sem_OOTPiSP_SimpleGrapicsEditor</RootNamespace>
-    <AssemblyName>2_course_4_sem_OOTPiSP_SimpleGrapicsEditor</AssemblyName>
+    <RootNamespace>SimpleGrapicsEditor</RootNamespace>
+    <AssemblyName>SimpleGrapicsEditor</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

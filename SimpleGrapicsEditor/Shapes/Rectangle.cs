@@ -1,4 +1,4 @@
-﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
+﻿namespace SimpleGrapicsEditor.Shapes
 {
     using System.Drawing;
     using System.Drawing.Drawing2D;

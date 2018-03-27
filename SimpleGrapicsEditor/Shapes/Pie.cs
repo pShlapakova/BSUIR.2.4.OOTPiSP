@@ -1,38 +1,38 @@
-﻿namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Shapes
+﻿namespace SimpleGrapicsEditor.Shapes
 {
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
 
     /// <inheritdoc cref="Shape"/>
-    /// <summary>S
-    /// Defines properties and inherited methods that represents arc characteristics.
+    /// <summary>
+    /// Defines properties and inherited methods that represents pie characteristics.
     /// </summary>
     [DataContract]
-    public class Arc : Shape
+    public class Pie : Shape
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Arc"/> class with default values.
+        /// Initializes a new instance of the <see cref="Pie"/> class with default values.
         /// </summary>
-        public Arc() : base()
+        public Pie() : base()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Arc"/> class with specified properties.
+        /// Initializes a new instance of the <see cref="Pie"/> class with specified properties.
         /// </summary>
-        /// <param name="x">The x-coordinate of the upper-left position of the arc.</param>
-        /// <param name="y">The y-coordinate of the upper-left position of the arc.</param>
-        /// <param name="width">The width of the arc.</param>
-        /// <param name="height">The height of the arc.</param>
-        /// <param name="startAngle">The start angle of the arc.</param>
-        /// <param name="sweepAngle">The sweep angle of the arc.</param>
+        /// <param name="x">The x-coordinate of the upper-left position of the pie.</param>
+        /// <param name="y">The y-coordinate of the upper-left position of the pie.</param>
+        /// <param name="width">The width of the pie.</param>
+        /// <param name="height">The height of the pie.</param>
+        /// <param name="startAngle">The start angle of the pie.</param>
+        /// <param name="sweepAngle">The sweep angle of the pie.</param>
         /// <param name="penWidth">The value indicating the width of this <see cref="Shapes.Pen"/></param>
         /// <param name="penColor">The value indicating the color of this <see cref="Shapes.Pen"/></param>
         /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="Shapes.Pen"/></param>
-        public Arc(int x, int y, int width, int height, float startAngle, float sweepAngle, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
+        public Pie(int x, int y, int width, int height, float startAngle, float sweepAngle, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
         {
             this.X = x;
             this.Y = y;
@@ -47,37 +47,37 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets x-coordinate of upper-left <see cref="Arc"/> position.
+        /// Gets or sets x-coordinate of upper-left <see cref="Pie"/> position.
         /// </summary>
         [DataMember]
         public int X { get; set; }
 
         /// <summary>
-        /// Gets or sets y-coordinate of upper-left <see cref="Arc"/> position.
+        /// Gets or sets y-coordinate of upper-left <see cref="Pie"/> position.
         /// </summary>
         [DataMember]
         public int Y { get; set; }
 
         /// <summary>
-        /// Gets or sets <see cref="Arc"/> width.
+        /// Gets or sets <see cref="Pie"/> width.
         /// </summary>
         [DataMember]
         public int Width { get; set; }
 
         /// <summary>
-        /// Gets or sets <see cref="Arc"/> height.
+        /// Gets or sets <see cref="Pie"/> height.
         /// </summary>
         [DataMember]
         public int Height { get; set; }
 
         /// <summary>
-        /// Gets or sets <see cref="Arc"/> start angle.
+        /// Gets or sets <see cref="Pie"/> start angle.
         /// </summary>
         [DataMember]
         public float StartAngle { get; set; }
 
         /// <summary>
-        /// Gets or sets <see cref="Arc"/> sweep angle.
+        /// Gets or sets <see cref="Pie"/> sweep angle.
         /// </summary>
         [DataMember]
         public float SweepAngle { get; set; }
@@ -87,13 +87,13 @@
         #region Methods
 
         /// <summary>
-        /// Defines the implementation of method used to build arc using this <see cref="GraphicsPath"/>.
+        /// Defines the implementation of method used to build pie using this <see cref="GraphicsPath"/>.
         /// </summary>
         public override void CreateShape()
         {
             base.CreateShape();
             this.GraphicsPath.StartFigure();
-            this.GraphicsPath.AddArc(this.X, this.Y, this.Width, this.Height, this.StartAngle, this.SweepAngle);
+            this.GraphicsPath.AddPie(this.X, this.Y, this.Width, this.Height, this.StartAngle, this.SweepAngle);
             this.GraphicsPath.CloseFigure();
         }
 
@@ -103,7 +103,7 @@
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return $"Arc({this.X},{this.Y}; {this.Width},{this.Height}; {this.StartAngle},{this.SweepAngle}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+            return $"Pie({this.X},{this.Y}; {this.Width},{this.Height}; {this.StartAngle},{this.SweepAngle}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
         }
 
         #endregion

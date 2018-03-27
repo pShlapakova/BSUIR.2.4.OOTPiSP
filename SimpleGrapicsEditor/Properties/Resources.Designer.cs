@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties {
+namespace SimpleGrapicsEditor.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace _2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("_2_course_4_sem_OOTPiSP_SimpleGrapicsEditor.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleGrapicsEditor.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
