@@ -1,16 +1,19 @@
 ﻿namespace SimpleGrapicsEditor.Shapes
 {
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
 
-    /// <inheritdoc cref="Shape"/>
+    /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
     /// Defines properties and inherited methods that represents
     /// ellipse characteristics.
     /// </summary>
     [DataContract]
-    public class Ellipse : Shape
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Ellipse")]
+    public class Ellipse : AbstractShape
     {
         #region Constructors
 
@@ -89,6 +92,22 @@
         public override string ToString()
         {
             return $"Ellipse({this.X},{this.Y}; {this.Width},{this.Height}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+        }
+
+        /// <summary>
+        /// Used to make a copy of this <see cref="Ellipse"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Ellipse"/>.</returns>
+        public override object Clone()
+        {
+            return new Ellipse(
+                this.X,
+                this.Y,
+                this.Width,
+                this.Height,
+                this.PenWidth,
+                this.PenColor,
+                this.PenDashStyle);
         }
 
         #endregion                        

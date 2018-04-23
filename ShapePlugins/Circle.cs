@@ -1,16 +1,19 @@
 ﻿namespace SimpleGrapicsEditor.Shapes
 {
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
 
-    /// <inheritdoc cref="Shape"/>
+    /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
     /// Defines properties and inherited methods that represents
     /// circle characteristics.
     /// </summary>
     [DataContract]
-    public class Circle : Shape
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Circle")]
+    public class Circle : AbstractShape
     {
         #region Constructors
 
@@ -81,6 +84,21 @@
         public override string ToString()
         {
             return $"Circle({this.X},{this.Y}; {this.Radius}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+        }
+
+        /// <summary>
+        /// Used to make a copy of this <see cref="Circle"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Circle"/>.</returns>
+        public override object Clone()
+        {
+            return new Circle(
+                this.X,
+                this.Y,
+                this.Radius,
+                this.PenWidth,
+                this.PenColor,
+                this.PenDashStyle);
         }
 
         #endregion    

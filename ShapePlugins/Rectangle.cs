@@ -1,16 +1,19 @@
 ﻿namespace SimpleGrapicsEditor.Shapes
 {
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
-    using System.Runtime.Serialization;
+    using System.Runtime.Serialization;    
 
-    /// <inheritdoc cref="Shape"/>
+    /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
     /// Defines properties and inherited methods that represents
     /// pie characteristics.
     /// </summary>
     [DataContract]
-    public class Rectangle : Shape
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Rectangle")]
+    public class Rectangle : AbstractShape
     {
         #region Constructors
 
@@ -89,6 +92,22 @@
         public override string ToString()
         {
             return $"Rectangle({this.X},{this.Y}; {this.Width},{this.Height}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+        }
+
+        /// <summary>
+        /// Used to make a copy of this <see cref="SimpleGrapicsEditor.Shapes.Rectangle"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="SimpleGrapicsEditor.Shapes.Rectangle"/>.</returns>
+        public override object Clone()
+        {
+            return new Rectangle(
+                this.X,
+                this.Y,
+                this.Width,
+                this.Height,
+                this.PenWidth,
+                this.PenColor,
+                this.PenDashStyle);
         }
 
         #endregion                        

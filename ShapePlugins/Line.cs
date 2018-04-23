@@ -1,16 +1,19 @@
 ﻿namespace SimpleGrapicsEditor.Shapes
 {
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
 
-    /// <inheritdoc cref="Shape"/>
+    /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
     /// Defines properties and inherited methods that represents
     /// line characteristics.
     /// </summary>
     [DataContract]
-    public class Line : Shape
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Line")]
+    public class Line : AbstractShape
     {
         #region Constructors
 
@@ -90,6 +93,22 @@
         public override string ToString()
         {
             return $"Line({this.X1},{this.Y1}; {this.X2},{this.Y2}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+        }
+
+        /// <summary>
+        /// Used to make a copy of this <see cref="Line"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Line"/>.</returns>
+        public override object Clone()
+        {
+            return new Line(
+                this.X1,
+                this.Y1,
+                this.X2,
+                this.Y2,
+                this.PenWidth,
+                this.PenColor,
+                this.PenDashStyle);
         }
 
         #endregion                        

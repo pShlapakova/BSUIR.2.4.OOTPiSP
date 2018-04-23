@@ -1,18 +1,32 @@
 ﻿namespace SimpleGrapicsEditor
 {
     using System;
-    using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Windows.Forms;
     using SimpleGrapicsEditor.Shapes;
-	using SimpleGrapicsEditor.Tools;
-    using Rectangle = Shapes.Rectangle;
+    using SimpleGrapicsEditor.Tools;    
 
     /// <summary>
     /// Main window of the software.
     /// </summary>
     public partial class MainForm : Form
     {
+        #region Fields
+
+        /// <summary>
+        /// Used for interaction with file system.
+        /// </summary>
+        private readonly IoTools ioTools;
+
+        /// <summary>
+        /// Used for importing Shape plugins.
+        /// </summary>
+        private readonly ShapePluginContainer shapePluginContainer = new ShapePluginContainer();
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -29,11 +43,35 @@
 
             this.ShapeListBox.ContextMenuStrip = this.ShapeListBoxContextMenuStrip;
             this.ClearShapeListToolStripMenuItem.Click += this.ClearShapeListToolStripMenuItemClick;
+            
+            ShapePluginManager.ImportPlugins(this.shapePluginContainer, this.ImportPluginsPostProcessing);
+
+            if (this.shapePluginContainer.ImportedShapes.Any())
+            {
+                var pluginsShapes = new ToolStripMenuItem("Shapes") { Name = "Shapes" };
+
+
+                this.pluginsToolStripMenuItem.DropDownItems.Add(pluginsShapes);
+
+                foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
+                {
+                    var concreteShape = new ToolStripMenuItem(shape.Metadata.Name) { Name = shape.Metadata.Name };
+
+                    pluginsShapes.DropDownItems.Add(concreteShape);
+                }
+
+                // test.Checked = true;
+            }
+
+            
+
+            
+
         }
 
         #endregion
                         
-        #region Events
+        #region Methods subscribed to Events
 
         #region MainForm
 
@@ -119,109 +157,35 @@
             this.Close();
         }
 
-        #endregion
-
-        #region Buttons
-
-        #region AddShape Buttons
-
-        private void AddLineButtonClick(object sender, EventArgs e)
-        {
-            Line line = new Line();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(line);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(line);                
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }            
-        }
-
-        private void AddRectangleButtonClick(object sender, EventArgs e)
-        {
-            Rectangle rectangle = new Rectangle();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(rectangle);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(rectangle);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }
-        }
-
-        private void AddEllipseButtonClick(object sender, EventArgs e)
-        {
-            Ellipse ellipse = new Ellipse();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(ellipse);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(ellipse);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }
-        }
-
-        private void AddCircleButtonClick(object sender, EventArgs e)
-        {
-            Circle circle = new Circle();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(circle);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(circle);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }
-        }
-
-        private void AddArcButtonClick(object sender, EventArgs e)
-        {
-            Arc arc = new Arc();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(arc);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(arc);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }
-        }
-
-        private void AddPieButtonClick(object sender, EventArgs e)
-        {
-            Pie pie = new Pie();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(pie);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(pie);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }
-        }
-
-        private void AddStarButtonClick(object sender, EventArgs e)
-        {
-            Star star = new Star();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(star);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(star);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }
-        }
-
-        private void AddSquareButtonClick(object sender, EventArgs e)
-        {
-            Square square = new Square();
-            ShapeEditForm shapeEditForm = new ShapeEditForm(square);
-            if (shapeEditForm.ShowDialog() == DialogResult.OK)
-            {
-                this.ShapeListBox.Items.Add(square);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
-            }
-        }
+        //private void RefreshPluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    ShapePluginManager.RefreshPlugins(this.shapePluginContainer, this.RefreshPluginsPostProcessing);            
+        //}
 
         #endregion
+
+        #region Buttons        
+
+        private void AddShapeButton_Click(object sender, EventArgs e)
+        {
+            if (this.ImportedShapesComboBox.SelectedIndex >= 0)
+            {
+                foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
+                {
+                    if (shape.Metadata.Name == this.ImportedShapesComboBox.SelectedItem.ToString())
+                    {                        
+                        dynamic shapeToAdd = shape.Value.Clone();
+                        ShapeEditForm f = new ShapeEditForm(shapeToAdd);
+                        if (f.ShowDialog() == DialogResult.OK)
+                        {
+                            this.ShapeListBox.Items.Add(shapeToAdd);
+                            this.EnableSaving();
+                            this.ioTools.ThereIsChanges = true;
+                        }
+                    }
+                }
+            }
+        }
 
         #region Buttons that working with ShapeListBox
 
@@ -259,7 +223,7 @@
         {
             string strToCompare = ListToString(this.ShapeListBox);
 
-            Shape[] bufShapeArray = new Shape[this.ShapeListBox.Items.Count];
+            AbstractShape[] bufShapeArray = new AbstractShape[this.ShapeListBox.Items.Count];
             this.ShapeListBox.Items.CopyTo(bufShapeArray, 0);
             this.ShapeListBox.Items.Clear();
             Array.Sort(bufShapeArray);
@@ -274,7 +238,7 @@
             string ListToString(ListBox shapeListBox)
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (Shape shape in shapeListBox.Items)
+                foreach (AbstractShape shape in shapeListBox.Items)
                 {
                     sb.Append(shape.ToString());
                 }
@@ -299,28 +263,123 @@
         #endregion
 
         #endregion
-
-        #region Fields
-
-        /// <summary>
-        /// Used for interactio with file system.
-        /// </summary>
-        private readonly IoTools ioTools;
-
-        #endregion
-
+        
         #region Methods
 
+        /// <summary>
+        /// Makes Save (not SaveAs) buttons disabled.
+        /// </summary>
         private void DisableSaving()
         {
             this.saveToolStripMenuItem.Enabled = false;
         }
 
+        /// <summary>
+        /// Makes Save (not SaveAs) buttons enabled.
+        /// </summary>
         private void EnableSaving()
         {
             this.saveToolStripMenuItem.Enabled = true;
         }
 
+        /// <summary>
+        /// Make necessary work after <see cref="AbstractShape"/> objects was imported.
+        /// </summary>
+        private void ImportPluginsPostProcessing()
+        {
+            this.AddShapeNamesToComboBox();
+            this.AddTypesToJsonKnownTypes();
+            this.SetNonEmptyItemInComboBox();
+        }
+
+        /// <summary>
+        /// Adds names of imported <see cref="AbstractShape"/> objects to ComboBox.
+        /// </summary>
+        private void AddShapeNamesToComboBox()
+        {
+            foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
+            {
+                this.ImportedShapesComboBox.Items.Add(shape.Metadata.Name);                
+            }            
+        }
+
+        /// <summary>
+        /// Add types of imported <see cref="AbstractShape"/> objects to list of
+        /// deserializer's known types.
+        /// </summary>
+        private void AddTypesToJsonKnownTypes()
+        {
+            foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
+            {
+                this.ioTools.JsonKnownTypesList.Add(shape.Value.GetType());
+            }
+        }
+
+        /// <summary>
+        /// If at least one <see cref="AbstractShape"/> object was imported,
+        /// set SelectedIndex of <see cref="MainForm.ImportedShapesComboBox"/> to 0.
+        /// </summary>
+        private void SetNonEmptyItemInComboBox()
+        {
+            if (this.ImportedShapesComboBox.Items.Count > 0)
+            {
+                this.ImportedShapesComboBox.SelectedIndex = 0;
+            }
+        }
+
+        private void RefreshPluginsPostProcessing()
+        {
+            this.ClearImportedShapesComboBox();
+            this.ClearJsonKnownTypes();
+            // ImportedShapesComboBox.SelectedIndex automatically sets to -1
+            // after clearing all its items.
+
+
+            this.AddShapeNamesToComboBox();
+
+            // If not make sorting, shape plugins that was disables and then enabled
+            // will be at the end of drow down list.
+            this.SortImportedShapesComboBox();
+            this.AddTypesToJsonKnownTypes();
+            this.SetNonEmptyItemInComboBox();
+        }
+
+        private void ClearImportedShapesComboBox()
+        {
+            this.ImportedShapesComboBox.Items.Clear();
+        }
+
+        private void ClearJsonKnownTypes()
+        {            
+            // Delete all known types amongest AbstractShape Type.                        
+            this.ioTools.JsonKnownTypesList.Clear();
+            this.ioTools.JsonKnownTypesList.Add(typeof(AbstractShape));
+        }
+
+        private void SortImportedShapesComboBox()
+        {
+            string[] buffer = new string[this.ImportedShapesComboBox.Items.Count];
+
+            // Use FOR, because ComboBox.Items.CopyTo(...) co-variant array conversion
+            // may cause run-time exception on write operation.
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = this.ImportedShapesComboBox.Items[i].ToString();
+            }
+
+            Array.Sort(buffer);
+
+            this.ImportedShapesComboBox.Items.Clear();
+
+            // Use FOR, because ComboBox.Items.AddRange(...) co-variant array conversion
+            // may cause run-time exception on write operation.
+            foreach (string item in buffer)
+            {
+                this.ImportedShapesComboBox.Items.Add(item);
+            }            
+        }
+
         #endregion
+
     }
 }

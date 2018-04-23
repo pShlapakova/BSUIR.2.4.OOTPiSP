@@ -30,16 +30,19 @@
 
         #region Fields
 
-        private readonly IEnumerable<Type> jsonKnownTypes = new List<Type> {
-            typeof(Shape),
-            typeof(Arc),
-            typeof(Circle),
-            typeof(Ellipse),
-            typeof(Line),
-            typeof(Pie),
-            typeof(Shapes.Rectangle),
-            typeof(Square),
-            typeof(Star) };
+        // We need AbstractType to avoid errors if some of deserialized shapes are not loaded as plugins.
+        public List<Type> JsonKnownTypesList { get; set; } = new List<Type> { typeof(AbstractShape) };
+    
+        //private readonly IEnumerable<Type> jsonKnownTypes = new List<Type> {
+        //    typeof(AbstractShape),
+        //    typeof(Arc),
+        //    typeof(Circle),
+        //    typeof(Ellipse),
+        //    typeof(Line),
+        //    typeof(Pie),
+        //    typeof(Shapes.Rectangle),
+        //    typeof(Square),
+        //    typeof(Star) };
 
         #endregion
 
@@ -210,11 +213,12 @@
 
         private void Serialization(string filePath)
         {
-            var jsonSerializer = new DataContractJsonSerializer(typeof(Shape[]), this.jsonKnownTypes);
+            //var jsonSerializer = new DataContractJsonSerializer(typeof(AbstractShape[]), this.jsonKnownTypes);
+            var jsonSerializer = new DataContractJsonSerializer(typeof(AbstractShape[]), this.JsonKnownTypesList);
 
             using (FileStream fs = new FileStream(Path.GetFullPath(filePath), FileMode.OpenOrCreate))
             {
-                Shape[] buffer = new Shape[this.ShapeListBox.Items.Count];
+                AbstractShape[] buffer = new AbstractShape[this.ShapeListBox.Items.Count];
                 this.ShapeListBox.Items.CopyTo(buffer, 0);
                 jsonSerializer.WriteObject(fs, buffer);
             }
@@ -222,11 +226,12 @@
 
         private void Deserialization(string filePath)
         {
-            var jsonSerializer = new DataContractJsonSerializer(typeof(Shape[]), this.jsonKnownTypes);
+            //var jsonSerializer = new DataContractJsonSerializer(typeof(AbstractShape[]), this.jsonKnownTypes);
+            var jsonSerializer = new DataContractJsonSerializer(typeof(AbstractShape[]), this.JsonKnownTypesList);
 
             using (FileStream fs = new FileStream(Path.GetFullPath(filePath), FileMode.OpenOrCreate))
             {
-                Shape[] buffer = (Shape[])jsonSerializer.ReadObject(fs);
+                AbstractShape[] buffer = (AbstractShape[])jsonSerializer.ReadObject(fs);
                 this.ShapeListBox.Items.AddRange(buffer);
             }
         }

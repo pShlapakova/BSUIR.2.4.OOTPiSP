@@ -1,17 +1,20 @@
 ﻿namespace SimpleGrapicsEditor.Shapes
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
 
-    /// <inheritdoc cref="Shape"/>
+    /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
     /// Defines properties and inherited methods that represents
     /// arc characteristics.
     /// </summary>
     [DataContract]
-    public class Star : Shape
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Star")]
+    public class Star : AbstractShape
     {
         #region Constructors
 
@@ -101,6 +104,21 @@
         public override string ToString()
         {
             return $"Star({this.X},{this.Y}; {this.Radius}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+        }
+
+        /// <summary>
+        /// Used to make a copy of this <see cref="Star"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Star"/>.</returns>
+        public override object Clone()
+        {
+            return new Star(
+                this.X,
+                this.Y,
+                this.Radius,
+                this.PenWidth,
+                this.PenColor,
+                this.PenDashStyle);
         }
 
         #endregion           

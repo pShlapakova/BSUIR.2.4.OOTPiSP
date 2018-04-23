@@ -1,15 +1,18 @@
 ﻿namespace SimpleGrapicsEditor.Shapes
 {
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
 
-    /// <inheritdoc cref="Shape"/>
+    /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
     /// Defines properties and inherited methods that represents pie characteristics.
     /// </summary>
     [DataContract]
-    public class Pie : Shape
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Pie")]
+    public class Pie : AbstractShape
     {
         #region Constructors
 
@@ -104,6 +107,24 @@
         public override string ToString()
         {
             return $"Pie({this.X},{this.Y}; {this.Width},{this.Height}; {this.StartAngle},{this.SweepAngle}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+        }
+
+        /// <summary>
+        /// Used to make a copy of this <see cref="Pie"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Pie"/>.</returns>
+        public override object Clone()
+        {
+            return new Pie(
+                this.X,
+                this.Y,
+                this.Width,
+                this.Height,
+                this.StartAngle,
+                this.SweepAngle,
+                this.PenWidth,
+                this.PenColor,
+                this.PenDashStyle);
         }
 
         #endregion

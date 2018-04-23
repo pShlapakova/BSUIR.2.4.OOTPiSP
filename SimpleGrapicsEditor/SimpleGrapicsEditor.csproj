@@ -31,8 +31,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>KeyPair\KeyPair.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tools\ShapePluginManager.cs" />
+    <Compile Include="Tools\ShapePluginContainer.cs" />
     <Compile Include="Tools\DrawingTools.cs" />
     <Compile Include="Tools\IoTools.cs" />
     <Compile Include="MainForm.cs">
@@ -62,15 +74,6 @@
     <Compile Include="ShapeEditForm.Designer.cs">
       <DependentUpon>ShapeEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Shapes\Arc.cs" />
-    <Compile Include="Shapes\Circle.cs" />
-    <Compile Include="Shapes\Ellipse.cs" />
-    <Compile Include="Shapes\Line.cs" />
-    <Compile Include="Shapes\Pie.cs" />
-    <Compile Include="Shapes\Rectangle.cs" />
-    <Compile Include="Shapes\Shape.cs" />
-    <Compile Include="Shapes\Square.cs" />
-    <Compile Include="Shapes\Star.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +90,7 @@
     <EmbeddedResource Include="ShapeEditForm.resx">
       <DependentUpon>ShapeEditForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="KeyPair\KeyPair.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -100,7 +104,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ShapeBasis\ShapeBasis.csproj">
+      <Project>{68a4c534-c1b9-4a70-a5ad-5b00e52f8e90}</Project>
+      <Name>ShapeBasis</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Icons\ArcButton.png" />
     <Content Include="Icons\CircleButton.png" />
@@ -111,6 +120,9 @@
     <Content Include="Icons\SimpleGraphicsEditor.ico" />
     <Content Include="Icons\Square.png" />
     <Content Include="Icons\Star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ShapePlugins\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

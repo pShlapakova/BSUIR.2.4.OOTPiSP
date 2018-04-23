@@ -1,16 +1,19 @@
 ﻿namespace SimpleGrapicsEditor.Shapes
 {
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
 
-    /// <inheritdoc cref="Shape"/>
+    /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
     /// Defines properties and inherited methods that represents
     /// square characteristics.
     /// </summary>
     [DataContract]
-    public class Square : Shape
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Square")]
+    public class Square : AbstractShape
     {
         #region Constructors
 
@@ -26,15 +29,15 @@
         /// </summary>
         /// <param name="x">The x-coordinate of the upper-left position of the square.</param>
         /// <param name="y">The y-coordinate of the upper-left position of the square.</param>
-        /// <param name="length">The length of the square side.</param>
+        /// <param name="side">The side of the square side.</param>
         /// <param name="penWidth">The value indicating the width of this <see cref="Shapes.Pen"/></param>
         /// <param name="penColor">The value indicating the color of this <see cref="Shapes.Pen"/></param>
         /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="Shapes.Pen"/></param>
-        public Square(int x, int y, int length, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
+        public Square(int x, int y, int side, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
         {
             this.X = x;
             this.Y = y;
-            this.Length = length;
+            this.Side = side;
         }
 
         #endregion
@@ -54,10 +57,10 @@
         public int Y { get; set; }
 
         /// <summary>
-        /// Gets or sets length of <see cref="Square"/>.
+        /// Gets or sets side of <see cref="Square"/>.
         /// </summary>
         [DataMember]
-        public int Length { get; set; }
+        public int Side { get; set; }
 
         #endregion
 
@@ -70,7 +73,7 @@
         {
             base.CreateShape();
             this.GraphicsPath.StartFigure();
-            this.GraphicsPath.AddRectangle(new System.Drawing.Rectangle(this.X, this.Y, this.Length, this.Length));
+            this.GraphicsPath.AddRectangle(new System.Drawing.Rectangle(this.X, this.Y, this.Side, this.Side));
             this.GraphicsPath.CloseFigure();
         }
 
@@ -80,7 +83,22 @@
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return $"Square({this.X},{this.Y}; {this.Length}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+            return $"Square({this.X},{this.Y}; {this.Side}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
+        }
+
+        /// <summary>
+        /// Used to make a copy of this <see cref="Square"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Square"/>.</returns>
+        public override object Clone()
+        {
+            return new Square(
+                this.X,
+                this.Y,
+                this.Side,
+                this.PenWidth,
+                this.PenColor,
+                this.PenDashStyle);
         }
 
         #endregion                               
