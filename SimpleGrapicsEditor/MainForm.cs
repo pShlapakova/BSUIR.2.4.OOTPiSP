@@ -1,7 +1,6 @@
 ﻿namespace SimpleGrapicsEditor
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
@@ -18,12 +17,12 @@
         /// <summary>
         /// Used for interaction with file system.
         /// </summary>
-        private readonly IoTools ioTools;
+        private readonly FileManager ioTools;        
 
         /// <summary>
-        /// Used for importing Shape plugins.
+        /// Used to store imported plugins of all types.
         /// </summary>
-        private readonly ShapePluginContainer shapePluginContainer = new ShapePluginContainer();
+        private readonly PluginContainer pluginContainer = new PluginContainer();
 
         #endregion
 
@@ -36,41 +35,19 @@
         public MainForm()
         {
             this.InitializeComponent();
-
-            this.ioTools = new IoTools(this.ShapeListBox);
-
+            
+            this.ioTools = new FileManager(this.ShapeListBox);
+            
             this.saveToolStripMenuItem.Enabled = false;
 
             this.ShapeListBox.ContextMenuStrip = this.ShapeListBoxContextMenuStrip;
             this.ClearShapeListToolStripMenuItem.Click += this.ClearShapeListToolStripMenuItemClick;
             
-            ShapePluginManager.ImportPlugins(this.shapePluginContainer, this.ImportPluginsPostProcessing);
-
-            if (this.shapePluginContainer.ImportedShapes.Any())
-            {
-                var pluginsShapes = new ToolStripMenuItem("Shapes") { Name = "Shapes" };
-
-
-                this.pluginsToolStripMenuItem.DropDownItems.Add(pluginsShapes);
-
-                foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
-                {
-                    var concreteShape = new ToolStripMenuItem(shape.Metadata.Name) { Name = shape.Metadata.Name };
-
-                    pluginsShapes.DropDownItems.Add(concreteShape);
-                }
-
-                // test.Checked = true;
-            }
-
-            
-
-            
-
+            PluginManager.ImportPlugins(this.pluginContainer, this.ImportPluginsPostProcessing);                       
         }
 
         #endregion
-                        
+
         #region Methods subscribed to Events
 
         #region MainForm
@@ -106,10 +83,8 @@
             if (this.ShapeListBox.Items.Count > 0)
             {
                 this.ShapeListBox.Items.Clear();
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
+                this.EnableSaving();                
             }
-
         }
 
         #endregion
@@ -127,7 +102,19 @@
 
         private void OpenToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.ioTools.Open(out bool successfully);
+            StringBuilder additionalSupportedFormats = new StringBuilder();
+            foreach (Lazy<IFunctionalPlugin, IFunctionalPluginData> plugin in this.pluginContainer.ImportedFunctionalPlugins)
+            {
+                additionalSupportedFormats.Append(plugin.Value.SupportedFormats);
+                additionalSupportedFormats.Append('|');
+            }
+
+            if (additionalSupportedFormats.Length > 0)
+            {
+                additionalSupportedFormats.Remove(additionalSupportedFormats.Length - 1, 1);
+            }            
+
+            this.ioTools.Open(out bool successfully, additionalSupportedFormats.ToString());
             if (successfully)
             {
                 this.DisableSaving();
@@ -157,10 +144,10 @@
             this.Close();
         }
 
-        //private void RefreshPluginsToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    ShapePluginManager.RefreshPlugins(this.shapePluginContainer, this.RefreshPluginsPostProcessing);            
-        //}
+        private void ReloadPluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManager.RefreshPlugins(this.pluginContainer, this.RefreshPluginsPostProcessing);
+        }
 
         #endregion
 
@@ -170,7 +157,7 @@
         {
             if (this.ImportedShapesComboBox.SelectedIndex >= 0)
             {
-                foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
+                foreach (Lazy<AbstractShape, IShapeData> shape in this.pluginContainer.ImportedShapePlugins)
                 {
                     if (shape.Metadata.Name == this.ImportedShapesComboBox.SelectedItem.ToString())
                     {                        
@@ -179,8 +166,7 @@
                         if (f.ShowDialog() == DialogResult.OK)
                         {
                             this.ShapeListBox.Items.Add(shapeToAdd);
-                            this.EnableSaving();
-                            this.ioTools.ThereIsChanges = true;
+                            this.EnableSaving();                            
                         }
                     }
                 }
@@ -203,8 +189,7 @@
 
                 if (strForComparing != shape.ToString())
                 {
-                    this.EnableSaving();
-                    this.ioTools.ThereIsChanges = true;
+                    this.EnableSaving();                    
                 }
             }
         }
@@ -214,8 +199,7 @@
             if (this.ShapeListBox.SelectedItem != null)
             {
                 this.ShapeListBox.Items.RemoveAt(this.ShapeListBox.SelectedIndex);
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
+                this.EnableSaving();                
             }
         }
 
@@ -231,8 +215,7 @@
 
             if (strToCompare != ListToString(this.ShapeListBox))
             {
-                this.EnableSaving();
-                this.ioTools.ThereIsChanges = true;
+                this.EnableSaving();                
             }
 
             string ListToString(ListBox shapeListBox)
@@ -247,17 +230,16 @@
             }
         }
 
-
         private void DrawListButtonClick(object sender, EventArgs e)
         {
-            DrawingTools.DrawAll(DrawingTools.GetShapes(this.ShapeListBox), this.DrawingFieldPictureBox);
+            DrawingManager.DrawAll(DrawingManager.GetShapes(this.ShapeListBox), this.DrawingFieldPictureBox);
         }
 
         #endregion
 
         private void ClearCanvasButtonClick(object sender, EventArgs e)
         {
-            DrawingTools.ClearPictureBox(this.DrawingFieldPictureBox);
+            DrawingManager.ClearPictureBox(this.DrawingFieldPictureBox);
         }
 
         #endregion
@@ -272,6 +254,7 @@
         private void DisableSaving()
         {
             this.saveToolStripMenuItem.Enabled = false;
+            this.ioTools.ThereIsChanges = false;
         }
 
         /// <summary>
@@ -280,6 +263,7 @@
         private void EnableSaving()
         {
             this.saveToolStripMenuItem.Enabled = true;
+            this.ioTools.ThereIsChanges = true;
         }
 
         /// <summary>
@@ -288,8 +272,64 @@
         private void ImportPluginsPostProcessing()
         {
             this.AddShapeNamesToComboBox();
-            this.AddTypesToJsonKnownTypes();
             this.SetNonEmptyItemInComboBox();
+            this.AddTypesToJsonKnownTypes();            
+            this.AddShapePluginsToMenu();
+
+            this.AddFunctionalPluginsToMenu();
+
+            this.SubscribeToFunctionalPlugins();
+        }
+
+        private void SubscribeToFunctionalPlugins()
+        {
+            foreach (var functionalPlugin in this.pluginContainer.ImportedFunctionalPlugins)
+            {
+                SerializationManager.BeforeDeserialization += functionalPlugin.Value.BeforeDeserialization;
+            }
+        }
+
+        private void UnsubscribeFromFunctionalPlugins()
+        {
+            
+        }
+
+        private void AddShapePluginsToMenu()
+        {
+            if (this.pluginContainer.ImportedShapePlugins.Any())
+            {
+                var pluginsShapes = new ToolStripMenuItem("Shapes") { Name = "Shapes" };
+
+                this.pluginsToolStripMenuItem.DropDownItems.Add(pluginsShapes);                
+
+                foreach (Lazy<AbstractShape, IShapeData> shape in this.pluginContainer.ImportedShapePlugins)
+                {
+                    var concreteShape = new ToolStripMenuItem(shape.Metadata.Name) { Name = shape.Metadata.Name };
+
+                    pluginsShapes.DropDownItems.Add(concreteShape);
+                }
+
+                // test.Checked = true;
+            }
+        }
+
+        private void AddFunctionalPluginsToMenu()
+        {
+            if (this.pluginContainer.ImportedFunctionalPlugins.Any())
+            {
+                var pluginsFunctional = new ToolStripMenuItem("Functional") { Name = "Functional" };
+
+                this.pluginsToolStripMenuItem.DropDownItems.Add(pluginsFunctional);
+
+                foreach (Lazy<IFunctionalPlugin, IFunctionalPluginData> funcPlugin in this.pluginContainer.ImportedFunctionalPlugins)
+                {
+                    var concretePlugin = new ToolStripMenuItem(funcPlugin.Metadata.Name) { Name = funcPlugin.Metadata.Name };
+
+                    pluginsFunctional.DropDownItems.Add(concretePlugin);
+                }
+
+                // test.Checked = true;
+            }
         }
 
         /// <summary>
@@ -297,7 +337,7 @@
         /// </summary>
         private void AddShapeNamesToComboBox()
         {
-            foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
+            foreach (Lazy<AbstractShape, IShapeData> shape in this.pluginContainer.ImportedShapePlugins)
             {
                 this.ImportedShapesComboBox.Items.Add(shape.Metadata.Name);                
             }            
@@ -309,9 +349,10 @@
         /// </summary>
         private void AddTypesToJsonKnownTypes()
         {
-            foreach (Lazy<AbstractShape, IShapeData> shape in this.shapePluginContainer.ImportedShapes)
+            foreach (Lazy<AbstractShape, IShapeData> shape in this.pluginContainer.ImportedShapePlugins)
             {
-                this.ioTools.JsonKnownTypesList.Add(shape.Value.GetType());
+                //this.ioTools.JsonKnownTypesList.Add(shape.Value.GetType());
+                SerializationManager.JsonKnownTypes.Add(shape.Value.GetType());
             }
         }
 
@@ -331,10 +372,11 @@
         {
             this.ClearImportedShapesComboBox();
             this.ClearJsonKnownTypes();
+            this.ClearMenu();
+            this.UnsubscribeFromFunctionalPlugins();
+
             // ImportedShapesComboBox.SelectedIndex automatically sets to -1
             // after clearing all its items.
-
-
             this.AddShapeNamesToComboBox();
 
             // If not make sorting, shape plugins that was disables and then enabled
@@ -342,6 +384,19 @@
             this.SortImportedShapesComboBox();
             this.AddTypesToJsonKnownTypes();
             this.SetNonEmptyItemInComboBox();
+
+            this.AddShapePluginsToMenu();
+            this.AddFunctionalPluginsToMenu();
+
+            this.SubscribeToFunctionalPlugins();
+        }
+
+        private void ClearMenu()
+        {
+            while (this.pluginsToolStripMenuItem.DropDownItems.Count > 2)
+            {
+                this.pluginsToolStripMenuItem.DropDownItems.RemoveAt(2);
+            }            
         }
 
         private void ClearImportedShapesComboBox()
@@ -352,8 +407,11 @@
         private void ClearJsonKnownTypes()
         {            
             // Delete all known types amongest AbstractShape Type.                        
-            this.ioTools.JsonKnownTypesList.Clear();
-            this.ioTools.JsonKnownTypesList.Add(typeof(AbstractShape));
+            //this.ioTools.JsonKnownTypesList.Clear();
+            //this.ioTools.JsonKnownTypesList.Add(typeof(AbstractShape));
+
+            SerializationManager.JsonKnownTypes.Clear();
+            SerializationManager.JsonKnownTypes.Add(typeof(AbstractShape));
         }
 
         private void SortImportedShapesComboBox()
@@ -379,7 +437,6 @@
             }            
         }
 
-        #endregion
-
+        #endregion        
     }
 }

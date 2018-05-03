@@ -39,6 +39,7 @@
 
         #region Constuctors
         
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeEditForm"/> class with <see cref="AbstractShape"/>
         /// object passed.
@@ -50,8 +51,8 @@
         public ShapeEditForm(AbstractShape shape) : this()
         {
             // Boundaries for NumericUpDown Controls.
-            const int MinValue = 0,
-                      MaxValue = 5000;
+            const int MinValue = 0;
+            const int MaxValue = 5000;
 
             // Adds Controls for Width, Color and DashStyle values of Pen.
             this.AddCommonControls((int)shape.PenWidth, shape.PenColor, shape.PenDashStyle);            
@@ -71,8 +72,9 @@
                     {
                         this.AddNumericUpDown(pi.Name, (int)pi.GetValue(shape), MinValue, MaxValue);
                     }
-                    else // if (pi.PropertyType == typeof(float))
+                    else
                     {
+                        // if (pi.PropertyType == typeof(float))
                         this.AddNumericUpDown(pi.Name, (int)(float)pi.GetValue(shape), MinValue, MaxValue);
                     }                    
                 }                                
@@ -101,7 +103,7 @@
                 }
 
                 this.DialogResult = DialogResult.OK;
-                this.Close();
+                //this.Close();
             };
 
             // Used for checking properties' names and types.
@@ -114,6 +116,7 @@
             }
         }
         
+
         /// <summary>
         /// Prevents a default instance of the <see cref="ShapeEditForm"/> class from being created as it should
         /// be called with <see cref="AbstractShape"/>-inherited geometric figure passed. Contains the component initialization.
@@ -184,7 +187,8 @@
             ColorDialog colorDialog = new ColorDialog()
             {
                 Color = button.BackColor,
-                AllowFullOpen = false
+                AllowFullOpen = true,
+                FullOpen = true
             };
 
             button.Click += (sender, args) =>

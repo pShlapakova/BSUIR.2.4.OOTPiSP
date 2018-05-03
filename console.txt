@@ -1,0 +1,8 @@
+csc /t:library /out:Arc.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Arc.cs /keyfile:KeyPair.snk
+csc /t:library /out:Circle.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Circle.cs /keyfile:KeyPair.snk
+csc /t:library /out:Ellipse.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Ellipse.cs /keyfile:KeyPair.snk
+csc /t:library /out:Line.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Line.cs /keyfile:KeyPair.snk
+csc /t:library /out:Pie.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Pie.cs /keyfile:KeyPair.snk
+csc /t:library /out:Rectangle.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Rectangle.cs /keyfile:KeyPair.snk
+csc /t:library /out:Square.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Square.cs /keyfile:KeyPair.snk
+csc /t:library /out:Star.dll /reference:ShapeBasis.dll /reference:System.ComponentModel.Composition.dll Star.cs /keyfile:KeyPair.snk

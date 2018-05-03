@@ -35,7 +35,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>KeyPair\KeyPair.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>KeyPairs\KeyPair.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
@@ -56,10 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tools\ShapePluginManager.cs" />
-    <Compile Include="Tools\ShapePluginContainer.cs" />
-    <Compile Include="Tools\DrawingTools.cs" />
-    <Compile Include="Tools\IoTools.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,7 +86,8 @@
     <EmbeddedResource Include="ShapeEditForm.resx">
       <DependentUpon>ShapeEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="KeyPair\KeyPair.snk" />
+    <None Include="KeyPairs\AnotherKeyPair.snk" />
+    <None Include="KeyPairs\KeyPair.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,12 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShapeBasis\ShapeBasis.csproj">
-      <Project>{68a4c534-c1b9-4a70-a5ad-5b00e52f8e90}</Project>
-      <Name>ShapeBasis</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Icons\ArcButton.png" />
     <Content Include="Icons\CircleButton.png" />
     <Content Include="Icons\EllipseButton.png" />
@@ -122,7 +113,22 @@
     <Content Include="Icons\Star.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ShapePlugins\" />
+    <Folder Include="Plugins\FunctionalPlugins\" />
+    <Folder Include="Plugins\ShapePlugins\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FunctionalPluginBase\FunctionalPluginBase.csproj">
+      <Project>{7cd2a68b-5969-4ee2-9a1e-6870f9304010}</Project>
+      <Name>FunctionalPluginBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management\Management.csproj">
+      <Project>{32c779a4-1c64-481c-8d84-ad572270c840}</Project>
+      <Name>Management</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShapePluginBase\ShapePluginBase.csproj">
+      <Project>{7e117359-9d26-4c86-ba22-e150f9e76718}</Project>
+      <Name>ShapePluginBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
