@@ -1,4 +1,4 @@
-﻿namespace SimpleGrapicsEditor.Shapes
+﻿namespace ShapePluginBase
 {
     /// <summary>
     /// Contains data about <see cref="IShape"/>.

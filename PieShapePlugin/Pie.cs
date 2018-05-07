@@ -1,9 +1,10 @@
-﻿namespace SimpleGrapicsEditor.Shapes
-{   
+﻿namespace PieShapePlugin
+{
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
+    using ShapePluginBase;
 
     /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
@@ -32,9 +33,9 @@
         /// <param name="height">The height of the pie.</param>
         /// <param name="startAngle">The start angle of the pie.</param>
         /// <param name="sweepAngle">The sweep angle of the pie.</param>
-        /// <param name="penWidth">The value indicating the width of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penColor">The value indicating the color of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="Shapes.Pen"/></param>
+        /// <param name="penWidth">The value indicating the width of this <see cref="IShape.Pen"/></param>
+        /// <param name="penColor">The value indicating the color of this <see cref="IShape.Pen"/></param>
+        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="IShape.Pen"/></param>
         public Pie(int x, int y, int width, int height, float startAngle, float sweepAngle, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
         {
             this.X = x;

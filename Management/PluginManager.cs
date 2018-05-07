@@ -1,4 +1,4 @@
-﻿namespace SimpleGrapicsEditor
+﻿namespace Management
 {
     using System;
     using System.ComponentModel.Composition;
@@ -16,6 +16,24 @@
     public static class PluginManager
     {
         #region Fields
+
+        #region For Shape Plugins
+
+        /// <summary>
+        /// The catalog with all available plugins.
+        /// </summary>
+        private static readonly DirectoryCatalog ShapePluginsDirectoryCatalog;
+
+        #endregion
+
+        #region For Functional Plugins
+
+        /// <summary>
+        /// The catalog with all available plugins.
+        /// </summary>
+        private static readonly DirectoryCatalog FunctionalPluginsDirectoryCatalog;
+
+        #endregion
 
         #region Common
 
@@ -36,23 +54,20 @@
 
         #endregion
 
-        #region For Shape Plugins
-
-        /// <summary>
-        /// The catalog with all available plugins.
-        /// </summary>
-        private static readonly DirectoryCatalog ShapePluginsDirectoryCatalog;
-        
         #endregion
 
-        #region For Functional Plugins
+        #region Events
 
         /// <summary>
-        /// The catalog with all available plugins.
+        /// Occurs when plugin was not loaded (it was unsigned or
+        /// signed by incorrect key pair).
         /// </summary>
-        private static readonly DirectoryCatalog FunctionalPluginsDirectoryCatalog;
+        public static event Action<string> OnNotLoaded;        
 
-        #endregion
+        /// <summary>
+        /// Occurs when plugin was successfully loaded.
+        /// </summary>
+        public static event Action<string> OnLoaded;
 
         #endregion
 
@@ -176,9 +191,7 @@
 
                 if (assemblyStrongName.PublicKey.Equals(ThisAppStrongName.PublicKey))
                 {
-                    AssemblyCatalog pluginAc = new AssemblyCatalog(assemblyPath);
-
-
+                    AssemblyCatalog plugin = new AssemblyCatalog(assemblyPath);
 
                     //string types = string.Empty;
                     //string interfaces = string.Empty;
@@ -199,25 +212,16 @@
                     //    MessageBoxButtons.OK,
                     //    MessageBoxIcon.Information);                    
 
-                    // if (!aggrCatalog.Catalogs.Contains(newAC)) - not working
-                    if (!IsAlreadyLoaded(ac, pluginAc))
+                    // aggrCatalog.Catalogs.Contains(...)) - not working.
+                    if (!IsAlreadyLoaded(ac, plugin))
                     {
-                        ac.Catalogs.Add(pluginAc);
-
-                        // MessageBox.Show(
-                        // Assembly.LoadFile(assemblyPath).FullName + ", IsFullyTrusted: " + Assembly.LoadFile(assemblyPath).IsFullyTrusted,
-                        // "Info!",
-                        // MessageBoxButtons.OK,
-                        // MessageBoxIcon.Information);
+                        ac.Catalogs.Add(plugin);                        
+                        OnLoaded?.Invoke(assemblyStrongName.Name);                        
                     }
                 }
                 else
                 {
-                    // MessageBox.Show(
-                    // assemblyStrongName.Name + " has incorrect sign!",
-                    // "Warning!",
-                    // MessageBoxButtons.OK,
-                    // MessageBoxIcon.Warning);
+                    OnNotLoaded?.Invoke(assemblyStrongName.Name);
                 }
             }
         }
@@ -236,7 +240,7 @@
             byte[] publicKey = assemblyName.GetPublicKey();
             if (publicKey == null || publicKey.Length == 0)
             {
-                // MessageBox.Show($"{assemblyName.Name} is not signed!", "Warning!", MessageBoxButtons.OK);
+                OnNotLoaded?.Invoke(assemblyName.Name);
                 return null;
             }
 

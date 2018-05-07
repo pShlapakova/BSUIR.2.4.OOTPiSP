@@ -4,8 +4,8 @@
     using System.Drawing;
     using System.Drawing.Drawing2D;    
     using System.Reflection;
-    using System.Windows.Forms;    
-    using SimpleGrapicsEditor.Shapes;    
+    using System.Windows.Forms;
+    using ShapePluginBase;
 
     /// <summary>
     /// Contains controls for editing characteristics of the <see cref="AbstractShape"/>-inherited
@@ -39,7 +39,6 @@
 
         #region Constuctors
         
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeEditForm"/> class with <see cref="AbstractShape"/>
         /// object passed.
@@ -52,7 +51,7 @@
         {
             // Boundaries for NumericUpDown Controls.
             const int MinValue = 0;
-            const int MaxValue = 5000;
+            const int MaxValue = 5000;            
 
             // Adds Controls for Width, Color and DashStyle values of Pen.
             this.AddCommonControls((int)shape.PenWidth, shape.PenColor, shape.PenDashStyle);            
@@ -102,8 +101,8 @@
                     MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                this.DialogResult = DialogResult.OK;
-                //this.Close();
+                // The next line also will close this form automatically.
+                this.DialogResult = DialogResult.OK;                
             };
 
             // Used for checking properties' names and types.
@@ -116,7 +115,6 @@
             }
         }
         
-
         /// <summary>
         /// Prevents a default instance of the <see cref="ShapeEditForm"/> class from being created as it should
         /// be called with <see cref="AbstractShape"/>-inherited geometric figure passed. Contains the component initialization.
@@ -124,7 +122,6 @@
         private ShapeEditForm()
         {
             this.InitializeComponent();
-
             this.CancelButton = this.CancelBtn;
         }
 
@@ -138,7 +135,7 @@
         /// <param name="name">The string that will be used as the name and the text of the new <see cref="Label"/>.</param>
         private void AddLabel(string name)
         {
-            Label label = new Label()
+            Label label = new Label
             {
                 Name = name + LabelPostfix,
                 Text = name + ':'               
@@ -156,13 +153,13 @@
         /// <param name="max">The maximum allowed value for the spin box.</param>
         private void AddNumericUpDown(string name, int value, int min, int max)
         {
-            NumericUpDown numericUpDown = new NumericUpDown()
+            NumericUpDown numericUpDown = new NumericUpDown
             {
-                Name = name + NumericUpDownPostfix,                
+                Name = name + NumericUpDownPostfix,
                 Minimum = min,
-                Maximum = max
+                Maximum = max,
+                Value = value
             };
-            numericUpDown.Value = value;
 
             this.TableLayoutPanel.Controls.Add(numericUpDown);
         }
@@ -187,8 +184,7 @@
             ColorDialog colorDialog = new ColorDialog()
             {
                 Color = button.BackColor,
-                AllowFullOpen = true,
-                FullOpen = true
+                AllowFullOpen = true                
             };
 
             button.Click += (sender, args) =>
@@ -232,12 +228,12 @@
         /// <param name="penDashStyle">The value of Pen.DashStyle that will be added to the corresponding NumericUpDown Control.</param>
         private void AddCommonControls(int penWidth, Color penColor, DashStyle penDashStyle)
         {
-            this.AddLabel("PenWidth");
-            this.AddNumericUpDown("PenWidth", penWidth, 1, 30);
-            this.AddLabel("PenColor");
-            this.AddColorButtonAndDialog("PenColor", penColor);
-            this.AddLabel("PenDashStyle");
-            this.AddDashStyleComboBox("PenDashStyle", penDashStyle);
+            this.AddLabel(nameof(AbstractShape.PenWidth));
+            this.AddNumericUpDown(nameof(AbstractShape.PenWidth), penWidth, 1, 30);
+            this.AddLabel(nameof(AbstractShape.PenColor));
+            this.AddColorButtonAndDialog(nameof(AbstractShape.PenColor), penColor);
+            this.AddLabel(nameof(AbstractShape.PenDashStyle));
+            this.AddDashStyleComboBox(nameof(AbstractShape.PenDashStyle), penDashStyle);
         }
 
         #endregion        

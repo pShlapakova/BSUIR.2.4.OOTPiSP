@@ -1,15 +1,28 @@
-﻿namespace SimpleGrapicsEditor.Tools
+﻿namespace Management
 {
-    using System;    
-    using System.IO;    
+    using System;
+    using System.IO;
     using System.Windows.Forms;
-    using SimpleGrapicsEditor.Shapes;
+    using ShapePluginBase;
 
     /// <summary>
     /// Used to manage files.
     /// </summary>
     public class FileManager
     {
+        //private static FileManager instance;
+
+        //private FileManager()
+        //{
+        //}
+
+        //public static FileManager GetInstance => instance ?? (instance = new FileManager());
+
+        //public void Initialize(ListBox listBox)
+        //{
+        //    instance.shapeListBox = listBox;
+        //}
+
         #region Constructors
 
         /// <summary>
@@ -18,7 +31,7 @@
         /// <param name="shapeListBox">The <see cref="ListBox"/> object to bind with the class instance.</param>
         public FileManager(ListBox shapeListBox)
         {
-            this.ShapeListBox = shapeListBox;
+            this.shapeListBox = shapeListBox;
         }
 
         #endregion
@@ -29,7 +42,7 @@
         /// Gets the <see cref="ListBox"/> object on the <see cref="Form"/>
         /// that binded with this class instance.
         /// </summary>
-        public ListBox ShapeListBox { get; }
+        private readonly ListBox shapeListBox;
 
         /// <summary>
         /// Gets the location of file currenty loaded.
@@ -40,6 +53,11 @@
         /// Gets or sets a value indicating whether there were any changes in <see cref="ListBox"/> objects.
         /// </summary>
         public bool ThereIsChanges { get; set; } = false;
+
+        ///// <summary>
+        ///// Gets or sets a value indicating whether user can or not save changes to the file.
+        ///// </summary>
+        //public bool RestrictSaving { get; set; } = false;
 
         #endregion        
 
@@ -76,6 +94,8 @@
         /// </summary>
         /// <param name="successfully">Indicating whether opening the file
         /// was successful or not.</param>
+        /// <param name="additionalSupportedFormats">Patterns of additional
+        /// supported formats.</param>
         public void Open(out bool successfully, string additionalSupportedFormats)
         {
             successfully = false;
@@ -143,6 +163,8 @@
         /// <summary>
         /// Performs opening the file for <see cref="Open"/> method.
         /// </summary>
+        /// <param name="additionalSupportedFormats">Pattern of additional
+        /// supported formats.</param>
         private void Opening(string additionalSupportedFormats)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -154,9 +176,8 @@
             {
                 this.Clearing();
 
-                this.ShapeListBox.Items.AddRange(SerializationManager.Deserialization(openFileDialog.FileName));                
-                //this.Deserialization(openFileDialog.FileName);
-
+                this.shapeListBox.Items.AddRange(SerializationManager.Deserialization(openFileDialog.FileName));                
+                
                 this.OpenedFilePath = Path.GetFullPath(openFileDialog.FileName);
             }
         }
@@ -177,16 +198,15 @@
             finishedSuccessfully = false;
 
             if (!this.OpenedFilePath.EndsWith(".json") && !this.OpenedFilePath.EndsWith(".JSON"))
-            {
-                //MessageBox.Show()
+            {                
                 return;                
             }
             
             try
             {
 
-                AbstractShape[] buffer = new AbstractShape[this.ShapeListBox.Items.Count];
-                this.ShapeListBox.Items.CopyTo(buffer, 0);
+                AbstractShape[] buffer = new AbstractShape[this.shapeListBox.Items.Count];
+                this.shapeListBox.Items.CopyTo(buffer, 0);
                 SerializationManager.Serialization(this.OpenedFilePath, buffer);
                 //this.Serialization(this.OpenedFilePath);
 
@@ -217,10 +237,9 @@
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
 
-                AbstractShape[] buffer = new AbstractShape[this.ShapeListBox.Items.Count];
-                this.ShapeListBox.Items.CopyTo(buffer, 0);
-                SerializationManager.Serialization(saveFile.FileName, buffer);
-                //this.Serialization(saveFile.FileName);
+                AbstractShape[] buffer = new AbstractShape[this.shapeListBox.Items.Count];
+                this.shapeListBox.Items.CopyTo(buffer, 0);
+                SerializationManager.Serialization(saveFile.FileName, buffer);                
 
                 finishedSuccessfully = true;
                 this.OpenedFilePath = Path.GetFullPath(saveFile.FileName);
@@ -261,13 +280,13 @@
         }
 
         /// <summary>
-        /// P
+        /// Prepares application for the new file.
         /// </summary>
         private void Clearing()
         {
             this.OpenedFilePath = string.Empty;
             this.ThereIsChanges = false;
-            this.ShapeListBox.Items.Clear();
+            this.shapeListBox.Items.Clear();
         }
 
         #endregion        

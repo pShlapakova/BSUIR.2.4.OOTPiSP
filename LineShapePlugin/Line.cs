@@ -1,9 +1,10 @@
-﻿namespace SimpleGrapicsEditor.Shapes
-{    
+﻿namespace LineShapePlugin
+{
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
+    using ShapePluginBase;
 
     /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
@@ -31,9 +32,9 @@
         /// <param name="y1">The first y-coordinate of the line.</param>
         /// <param name="x2">The second x-coordinate of the line.</param>
         /// <param name="y2">The second y-coordinate of the line.</param>
-        /// <param name="penWidth">The value indicating the width of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penColor">The value indicating the color of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="Shapes.Pen"/></param>
+        /// <param name="penWidth">The value indicating the width of this <see cref="IShape.Pen"/></param>
+        /// <param name="penColor">The value indicating the color of this <see cref="IShape.Pen"/></param>
+        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="IShape.Pen"/></param>
         public Line(int x1, int y1, int x2, int y2, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
         {
             this.X1 = x1;

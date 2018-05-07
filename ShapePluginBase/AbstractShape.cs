@@ -1,15 +1,15 @@
-﻿namespace SimpleGrapicsEditor.Shapes
+﻿namespace ShapePluginBase
 {
     using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
-    using System.Runtime.Serialization;     
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Defines common properties and methods for geometric figures drawable using <see cref="System.Drawing.Graphics"/>.
     /// </summary>      
     [DataContract]
-    public abstract class AbstractShape : IShape, IComparable<AbstractShape>, ICloneable
+    public abstract class AbstractShape : IShape, ICloneable
     {
         #region Constructors
 
@@ -18,18 +18,17 @@
         /// </summary>
         protected AbstractShape()
         {        
-            this.GraphicsPath = new GraphicsPath();
-            this.Pen = new Pen(Color.Black, 1F) { DashStyle = DashStyle.Solid };
-        }        
+            this.Initialize();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractShape"/> class with the specified
         /// <see cref="System.Drawing.Pen.Width"/>, <see cref="System.Drawing.Pen.Color"/>
         /// and <see cref="System.Drawing.Pen.DashStyle"/> properties.
         /// </summary>
-        /// <param name="penWidth">A value indicating the width of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penColor">A color structure that indicates the color of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penDashStyle">A value indicating the style used for dashed lines drawn with this <see cref="Shapes.Pen"/></param>
+        /// <param name="penWidth">A value indicating the width of this <see cref="IShape.Pen"/></param>
+        /// <param name="penColor">A color structure that indicates the color of this <see cref="IShape.Pen"/></param>
+        /// <param name="penDashStyle">A value indicating the style used for dashed lines drawn with this <see cref="IShape.Pen"/></param>
         protected AbstractShape(float penWidth, Color penColor, DashStyle penDashStyle)
             : this()
         {
@@ -43,17 +42,17 @@
         #region Properties
 
         /// <summary>
-        /// Gets <see cref="GraphicsPath"/> to build geometric figure for further drawing using <see cref="System.Drawing.Graphics"/>.
+        /// Gets or sets <see cref="GraphicsPath"/> to build geometric figure for further drawing using <see cref="System.Drawing.Graphics"/>.
         /// </summary>        
-        public GraphicsPath GraphicsPath { get; private set; }
+        public GraphicsPath GraphicsPath { get; protected set; }
 
         /// <summary>
-        /// Gets <see cref="System.Drawing.Pen"/> used to draw geometric figure using <see cref="System.Drawing.Graphics"/>.
+        /// Gets or sets <see cref="System.Drawing.Pen"/> used to draw geometric figure using <see cref="System.Drawing.Graphics"/>.
         /// </summary>        
-        public Pen Pen { get; private set; }
+        public Pen Pen { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the width of this <see cref="Shapes.Pen"/>.
+        /// Gets or sets the width of this <see cref="IShape.Pen"/>.
         /// </summary>        
         public float PenWidth
         {
@@ -62,7 +61,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the color of this <see cref="Shapes.Pen"/>.
+        /// Gets or sets the color of this <see cref="IShape.Pen"/>.
         /// </summary>
         [DataMember]
         public Color PenColor
@@ -72,7 +71,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the style used for dashed lines drawn with this <see cref="Shapes.Pen"/>.
+        /// Gets or sets the style used for dashed lines drawn with this <see cref="IShape.Pen"/>.
         /// </summary>
         [DataMember]
         public DashStyle PenDashStyle
@@ -86,33 +85,14 @@
         #region Methods
 
         #region Public
-
-        /// <summary>
-        /// Compares two instances of the <see cref="AbstractShape"/> and inherited classes as strings
-        /// containing geometric figure's name and its properties.
-        /// </summary>
-        /// <param name="shape">A <see cref="AbstractShape"/> class instance with which this
-        /// instance is compared.</param>
-        /// <returns>A value that indicates the relative order of the objects being compared.</returns>
-        /// <inheritdoc cref="IComparable.CompareTo"/>
-        public int CompareTo(AbstractShape shape)
-        {
-            return this.ToString().CompareTo(shape.ToString());
-        }
-
+        
         /// <summary>
         /// Defines the implementation of method used to build geometric
         /// figure using this <see cref="GraphicsPath"/>.
         /// </summary>
         public virtual void CreateShape()
         {
-            // To prevent NullReferenceException caused by deserialization.
-            // if (GraphicsPath == null)
-            // {
-            // GraphicsPath = new GraphicsPath();                
-            // }
-
-            // Delete old figure from path
+            // Delete old figure from path.
             this.GraphicsPath.Reset();
         }
 
@@ -132,8 +112,6 @@
 
         #region Private
 
-        // I had to made this method, because deserializer not using constructor.
-
         /// <summary>
         /// Used to prepare object for deserialization.
         /// </summary>
@@ -141,11 +119,19 @@
         /// this method work on deserializing. It is don't used inside method.</param>
         [OnDeserializing]        
         private void DeserializationPreparing(StreamingContext sc)
+        {            
+            this.Initialize();
+        }
+
+        /// <summary>
+        /// Initializes necessary members.
+        /// </summary>
+        private void Initialize()
         {
             this.GraphicsPath = new GraphicsPath();
             this.Pen = this.Pen = new Pen(Color.Black, 1F) { DashStyle = DashStyle.Solid };
         }
-        
+
         #endregion
 
         #endregion

@@ -1,9 +1,10 @@
-﻿namespace SimpleGrapicsEditor
+﻿namespace Management
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using SimpleGrapicsEditor.Shapes;
+    using FunctionalPluginBase;
+    using ShapePluginBase;
 
     /// <summary>
     /// Used to import Shape plugins.

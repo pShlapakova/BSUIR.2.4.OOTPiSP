@@ -1,11 +1,20 @@
 ﻿namespace SimpleGrapicsEditor
 {
-    using System;
-    using System.Linq;
+    using System;    
+    using System.Linq;    
     using System.Text;
     using System.Windows.Forms;
-    using SimpleGrapicsEditor.Shapes;
-    using SimpleGrapicsEditor.Tools;    
+    using FunctionalPluginBase;
+    using Management;
+    using ShapePluginBase;
+
+    // TODO: 1) Change Lazy<AbstractShape, IShapeData> to Lazy<IShape, IShapeData>.
+    // TODO: 2) FileManager --- Refactoring (? Singleton ?).
+    // TODO: 3) EugeneOwl --- Adapter.    
+    // TODO: 4) PluginManager ---- REfactoring (when 3 is made).
+
+    // TODO: 5) (Самый низкий приоритет) Добавить возможность загружать и проверять на уже присутствие через PluginManager
+    // TODO: нескольких плагинов в одном DLL-файле.
 
     /// <summary>
     /// Main window of the software.
@@ -14,11 +23,13 @@
     {
         #region Fields
 
+        
+
         /// <summary>
         /// Used for interaction with file system.
         /// </summary>
-        private readonly FileManager ioTools;        
-
+        private readonly FileManager fileManager;
+       
         /// <summary>
         /// Used to store imported plugins of all types.
         /// </summary>
@@ -36,14 +47,11 @@
         {
             this.InitializeComponent();
             
-            this.ioTools = new FileManager(this.ShapeListBox);
+            this.fileManager = new FileManager(this.ShapeListBox);
             
             this.saveToolStripMenuItem.Enabled = false;
 
-            this.ShapeListBox.ContextMenuStrip = this.ShapeListBoxContextMenuStrip;
-            this.ClearShapeListToolStripMenuItem.Click += this.ClearShapeListToolStripMenuItemClick;
-            
-            PluginManager.ImportPlugins(this.pluginContainer, this.ImportPluginsPostProcessing);                       
+            PluginManager.ImportPlugins(this.pluginContainer, this.ImportPluginsPostProcessing);            
         }
 
         #endregion
@@ -54,7 +62,7 @@
 
         private void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
-            this.ioTools.Exit(out bool stopClosing);
+            this.fileManager.Exit(out bool stopClosing);
 
             e.Cancel = stopClosing;
         }
@@ -76,24 +84,11 @@
 
         #endregion
 
-        #region ShapeListBoxContextMenuStrip
-
-        private void ClearShapeListToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            if (this.ShapeListBox.Items.Count > 0)
-            {
-                this.ShapeListBox.Items.Clear();
-                this.EnableSaving();                
-            }
-        }
-
-        #endregion
-
         #region MenuStrip
 
         private void NewToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.ioTools.New(out bool successfully);
+            this.fileManager.New(out bool successfully);
             if (successfully)
             {
                 this.DisableSaving();
@@ -114,7 +109,7 @@
                 additionalSupportedFormats.Remove(additionalSupportedFormats.Length - 1, 1);
             }            
 
-            this.ioTools.Open(out bool successfully, additionalSupportedFormats.ToString());
+            this.fileManager.Open(out bool successfully, additionalSupportedFormats.ToString());
             if (successfully)
             {
                 this.DisableSaving();
@@ -123,7 +118,7 @@
 
         private void SaveToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.ioTools.Save(out bool successfully);
+            this.fileManager.Save(out bool successfully);
             if (successfully)
             {
                 this.DisableSaving();
@@ -132,7 +127,7 @@
 
         private void SaveAsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            this.ioTools.SaveAs(out bool successfully);
+            this.fileManager.SaveAs(out bool successfully);
             if (successfully)
             {
                 this.DisableSaving();
@@ -203,36 +198,9 @@
             }
         }
 
-        private void SortListButtonClick(object sender, EventArgs e)
-        {
-            string strToCompare = ListToString(this.ShapeListBox);
-
-            AbstractShape[] bufShapeArray = new AbstractShape[this.ShapeListBox.Items.Count];
-            this.ShapeListBox.Items.CopyTo(bufShapeArray, 0);
-            this.ShapeListBox.Items.Clear();
-            Array.Sort(bufShapeArray);
-            this.ShapeListBox.Items.AddRange(bufShapeArray);
-
-            if (strToCompare != ListToString(this.ShapeListBox))
-            {
-                this.EnableSaving();                
-            }
-
-            string ListToString(ListBox shapeListBox)
-            {
-                StringBuilder sb = new StringBuilder();
-                foreach (AbstractShape shape in shapeListBox.Items)
-                {
-                    sb.Append(shape.ToString());
-                }
-
-                return sb.ToString();
-            }
-        }
-
         private void DrawListButtonClick(object sender, EventArgs e)
         {
-            DrawingManager.DrawAll(DrawingManager.GetShapes(this.ShapeListBox), this.DrawingFieldPictureBox);
+            DrawingManager.DrawAll(DrawingManager.GetShapes(this.ShapeListBox), this.DrawingFieldPictureBox);            
         }
 
         #endregion
@@ -254,7 +222,7 @@
         private void DisableSaving()
         {
             this.saveToolStripMenuItem.Enabled = false;
-            this.ioTools.ThereIsChanges = false;
+            this.fileManager.ThereIsChanges = false;
         }
 
         /// <summary>
@@ -263,7 +231,7 @@
         private void EnableSaving()
         {
             this.saveToolStripMenuItem.Enabled = true;
-            this.ioTools.ThereIsChanges = true;
+            this.fileManager.ThereIsChanges = true;
         }
 
         /// <summary>
@@ -273,7 +241,9 @@
         {
             this.AddShapeNamesToComboBox();
             this.SetNonEmptyItemInComboBox();
-            this.AddTypesToJsonKnownTypes();            
+            //this.AddTypesToJsonKnownTypes();            
+            SerializationManager.RefreshJsonKnownTypes(this.pluginContainer.ImportedShapePlugins);
+
             this.AddShapePluginsToMenu();
 
             this.AddFunctionalPluginsToMenu();
@@ -343,18 +313,6 @@
             }            
         }
 
-        /// <summary>
-        /// Add types of imported <see cref="AbstractShape"/> objects to list of
-        /// deserializer's known types.
-        /// </summary>
-        private void AddTypesToJsonKnownTypes()
-        {
-            foreach (Lazy<AbstractShape, IShapeData> shape in this.pluginContainer.ImportedShapePlugins)
-            {
-                //this.ioTools.JsonKnownTypesList.Add(shape.Value.GetType());
-                SerializationManager.JsonKnownTypes.Add(shape.Value.GetType());
-            }
-        }
 
         /// <summary>
         /// If at least one <see cref="AbstractShape"/> object was imported,
@@ -370,8 +328,7 @@
 
         private void RefreshPluginsPostProcessing()
         {
-            this.ClearImportedShapesComboBox();
-            this.ClearJsonKnownTypes();
+            this.ClearImportedShapesComboBox();            
             this.ClearMenu();
             this.UnsubscribeFromFunctionalPlugins();
 
@@ -381,8 +338,8 @@
 
             // If not make sorting, shape plugins that was disables and then enabled
             // will be at the end of drow down list.
-            this.SortImportedShapesComboBox();
-            this.AddTypesToJsonKnownTypes();
+            this.SortImportedShapesComboBox();            
+            SerializationManager.RefreshJsonKnownTypes(this.pluginContainer.ImportedShapePlugins);
             this.SetNonEmptyItemInComboBox();
 
             this.AddShapePluginsToMenu();
@@ -404,15 +361,6 @@
             this.ImportedShapesComboBox.Items.Clear();
         }
 
-        private void ClearJsonKnownTypes()
-        {            
-            // Delete all known types amongest AbstractShape Type.                        
-            //this.ioTools.JsonKnownTypesList.Clear();
-            //this.ioTools.JsonKnownTypesList.Add(typeof(AbstractShape));
-
-            SerializationManager.JsonKnownTypes.Clear();
-            SerializationManager.JsonKnownTypes.Add(typeof(AbstractShape));
-        }
 
         private void SortImportedShapesComboBox()
         {
@@ -437,6 +385,15 @@
             }            
         }
 
-        #endregion        
+        #endregion
+
+        private void DeleteAllButton_Click(object sender, EventArgs e)
+        {
+            if (this.ShapeListBox.Items.Count > 0)
+            {
+                this.ShapeListBox.Items.Clear();
+                this.EnableSaving();
+            }
+        }
     }
 }

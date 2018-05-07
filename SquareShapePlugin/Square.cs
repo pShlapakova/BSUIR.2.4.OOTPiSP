@@ -1,9 +1,10 @@
-﻿namespace SimpleGrapicsEditor.Shapes
-{    
+﻿namespace SquareShapePlugin
+{
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
+    using ShapePluginBase;
 
     /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
@@ -30,9 +31,9 @@
         /// <param name="x">The x-coordinate of the upper-left position of the square.</param>
         /// <param name="y">The y-coordinate of the upper-left position of the square.</param>
         /// <param name="side">The side of the square side.</param>
-        /// <param name="penWidth">The value indicating the width of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penColor">The value indicating the color of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="Shapes.Pen"/></param>
+        /// <param name="penWidth">The value indicating the width of this <see cref="IShape.Pen"/></param>
+        /// <param name="penColor">The value indicating the color of this <see cref="IShape.Pen"/></param>
+        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="IShape.Pen"/></param>
         public Square(int x, int y, int side, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
         {
             this.X = x;

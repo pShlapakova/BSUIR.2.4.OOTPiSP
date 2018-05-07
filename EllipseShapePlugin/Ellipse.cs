@@ -1,9 +1,10 @@
-﻿namespace SimpleGrapicsEditor.Shapes
-{    
+﻿namespace EllipseShapePlugin
+{
     using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
+    using ShapePluginBase;
 
     /// <inheritdoc cref="AbstractShape"/>
     /// <summary>
@@ -31,9 +32,9 @@
         /// <param name="y">The y-coordinate of the upper-left position of the ellipse.</param>
         /// <param name="width">The width of the ellipse.</param>
         /// <param name="height">The height of the ellipse.</param>
-        /// <param name="penWidth">The value indicating the width of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penColor">The value indicating the color of this <see cref="Shapes.Pen"/></param>
-        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="Shapes.Pen"/></param>
+        /// <param name="penWidth">The value indicating the width of this <see cref="IShape.Pen"/></param>
+        /// <param name="penColor">The value indicating the color of this <see cref="IShape.Pen"/></param>
+        /// <param name="penDashStyle">The value indicating the style used for dashed lines drawn with this <see cref="IShape.Pen"/></param>
         public Ellipse(int x, int y, int width, int height, float penWidth, Color penColor, DashStyle penDashStyle) : base(penWidth, penColor, penDashStyle)
         {
             this.X = x;

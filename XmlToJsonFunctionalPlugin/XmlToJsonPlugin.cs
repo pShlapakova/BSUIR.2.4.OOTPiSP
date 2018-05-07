@@ -1,22 +1,38 @@
-﻿namespace FunctionalPlugins
+﻿namespace XmlToJsonFunctionalPlugin
 {
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Text;
     using System.Text.RegularExpressions;
-    using SimpleGrapicsEditor;
+    using FunctionalPluginBase;
 
+    /// <summary>
+    /// Converts XML <see cref="string"/> to JSON <see cref="string"/>.
+    /// </summary>
     [Export(typeof(IFunctionalPlugin))]
     [ExportMetadata("Name", "XML to JSON")]
     public class XmlToJsonPlugin : IFunctionalPlugin
     {
+        /// <summary>
+        /// Gets formats supported by this plugin.
+        /// </summary>
         public string SupportedFormats { get; } = "XML file|*.xml";        
 
+        /// <summary>
+        /// Performs special transformations with serialized text.
+        /// </summary>
+        /// <param name="graph">Serialized text.</param>
+        /// <returns>Transformed text.</returns>
         public string AfterSerialization(string graph)
         {
             return graph;
         }
 
+        /// <summary>
+        /// Performs special transformations with serialized text.
+        /// </summary>
+        /// <param name="graph">Text from file with serialized objects.</param>
+        /// <returns>Transformed text.</returns>
         public string BeforeDeserialization(string graph)
         {
             if (!graph.StartsWith("<?xml"))
@@ -59,12 +75,12 @@
                     }
                 }
 
-                foreach (var pair in baseProperties)
+                foreach (KeyValuePair<string, string> pair in baseProperties)
                 {
                     jsonResult.Append(",\"" + pair.Key + "\":" + pair.Value);
                 }
 
-                foreach (var pair in extendedProperties)
+                foreach (KeyValuePair<string, string> pair in extendedProperties)
                 {
                     jsonResult.Append(",\"" + pair.Key + "\":" + pair.Value);
                 }

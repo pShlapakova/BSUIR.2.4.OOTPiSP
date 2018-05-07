@@ -1,4 +1,4 @@
-﻿namespace SimpleGrapicsEditor
+﻿namespace FunctionalPluginBase
 {    
     /// <summary>
     /// The interface for plugins that provide additional

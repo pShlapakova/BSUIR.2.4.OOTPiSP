@@ -1,4 +1,4 @@
-﻿namespace SimpleGrapicsEditor
+﻿namespace FunctionalPluginBase
 {
     /// <summary>
     /// Contains data about <see cref="IFunctionalPlugin"/>.
