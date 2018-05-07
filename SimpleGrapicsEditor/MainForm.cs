@@ -22,7 +22,7 @@
         /// <summary>
         /// Used to store imported plugins of all types.
         /// </summary>
-        private readonly PluginContainer pluginContainer = new PluginContainer();
+        private readonly PluginContainer pluginContainer = PluginContainer.GetInstance;
 
         #endregion
 
