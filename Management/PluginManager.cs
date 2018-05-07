@@ -8,6 +8,7 @@
     using System.Reflection;
     using System.Security.Permissions;
     using System.Security.Policy;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Used for plugins management.
@@ -176,6 +177,27 @@
                 if (assemblyStrongName.PublicKey.Equals(ThisAppStrongName.PublicKey))
                 {
                     AssemblyCatalog pluginAc = new AssemblyCatalog(assemblyPath);
+
+
+
+                    //string types = string.Empty;
+                    //string interfaces = string.Empty;
+
+                    //foreach (Type type in pluginAc.Assembly.GetTypes())
+                    //{
+                    //    foreach (Type interf in type.GetInterfaces())
+                    //    {
+                    //        interfaces += interf.ToString();
+                    //    }
+                        
+                    //    types += type.BaseType.ToString();                        
+                    //} 
+                    
+                    //MessageBox.Show(
+                    //    types + '\n' + interfaces,
+                    //    "Type of DLL",
+                    //    MessageBoxButtons.OK,
+                    //    MessageBoxIcon.Information);                    
 
                     // if (!aggrCatalog.Catalogs.Contains(newAC)) - not working
                     if (!IsAlreadyLoaded(ac, pluginAc))
