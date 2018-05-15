@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGrapicsEditor", "Simp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C20D8630-67EC-4975-8469-4D8D998D67C3}"
 	ProjectSection(SolutionItems) = preProject
-		code.txt = code.txt
+		console.txt = console.txt
 		README.md = README.md
 	EndProjectSection
 EndProject

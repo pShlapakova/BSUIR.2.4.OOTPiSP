@@ -53,7 +53,8 @@
 
         /// <summary>
         /// Gets or sets the width of this <see cref="IShape.Pen"/>.
-        /// </summary>        
+        /// </summary>  
+        [DataMember]     
         public float PenWidth
         {
             get => this.Pen.Width;

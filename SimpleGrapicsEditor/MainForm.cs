@@ -3,28 +3,18 @@
     using System;    
     using System.Linq;    
     using System.Text;
-    using System.Windows.Forms;
+    using System.Windows.Forms;    
     using FunctionalPluginBase;
     using Management;
     using ShapePluginBase;
-
-    // TODO: 1) Change Lazy<AbstractShape, IShapeData> to Lazy<IShape, IShapeData>.
-    // TODO: 2) FileManager --- Refactoring (? Singleton ?).
-    // TODO: 3) EugeneOwl --- Adapter.    
-    // TODO: 4) PluginManager ---- REfactoring (when 3 is made).
-
-    // TODO: 5) (Самый низкий приоритет) Добавить возможность загружать и проверять на уже присутствие через PluginManager
-    // TODO: нескольких плагинов в одном DLL-файле.
-
+    
     /// <summary>
     /// Main window of the software.
     /// </summary>
     public partial class MainForm : Form
     {
         #region Fields
-
         
-
         /// <summary>
         /// Used for interaction with file system.
         /// </summary>
@@ -51,7 +41,7 @@
             
             this.saveToolStripMenuItem.Enabled = false;
 
-            PluginManager.ImportPlugins(this.pluginContainer, this.ImportPluginsPostProcessing);            
+            PluginManager.ImportPlugins(this.pluginContainer, this.ImportPluginsPostProcessing);
         }
 
         #endregion

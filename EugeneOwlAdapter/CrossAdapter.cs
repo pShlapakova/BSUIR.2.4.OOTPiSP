@@ -1,56 +1,79 @@
 ﻿namespace EugeneOwlAdapter
 {
+    using System.ComponentModel.Composition;
     using System.Drawing;
     using System.Drawing.Drawing2D;
-    using System.Runtime.CompilerServices;
-
-    using EugeneOwlCross;
-
+    using System.Runtime.Serialization;
+    using EugeneOwlCross;    
     using ShapePluginBase;
 
-    public class CrossAdapter : FigureAdapter
+    [DataContract]
+    [Export(typeof(AbstractShape))]
+    [ExportMetadata("Name", "Cross")]
+    public class CrossAdapter : AbstractShape
     {
+        //[DataMember]
+        //private Cross cross = new Cross();
+
+        public CrossAdapter() : base()
+        {
+            
+        }
+
+        public CrossAdapter(int x, int y, float penWidth, Color penColor, DashStyle penDashStyle)
+            : base(penWidth, penColor, penDashStyle)
+        {
+            this.X = x;
+            this.Y = y;            
+        }
+
+        [DataMember]
+        public int X { get; set; }
+
+        [DataMember]
+        public int Y { get; set; }        
+
+        public override void CreateShape()
+        {
+            //base.CreateShape();
+            Cross cross = new Cross(this.X, this.Y);
+            this.GraphicsPath = cross.GetPath();
+        }
+
         public override string ToString()
         {
-            return $"{nameof(Cross)}({((Cross)this.figure).xPosition},{((Cross)this.figure).yPosition})";
+            return $"{nameof(Cross)}({this.X},{this.Y}; {this.PenWidth}, {this.PenColor}, {this.PenDashStyle})";
         }
 
         public override object Clone()
         {
-            return new Cross(((Cross)this.figure).xPosition, ((Cross)this.figure).yPosition);
+            return new CrossAdapter(this.X, this.Y, this.PenWidth, this.PenColor, this.PenDashStyle);
         }
 
-        public override AbstractShape GetAbstractShape()
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public int X { get; set; }
-        public int Y { get; set; }
 
-        public CrossAdapter()
-        {
+        // FigureAdapter не делал, т.к. в нём нечего добавить (CreateShape(), ToString()
+        // и Clone() окажутся пустыми; DataMember'ов общих нет, в конструкторах ничего спеифическое задавать не нужно).
 
-        }
 
-        public CrossAdapter(int x, int y)
-        {
 
-        }
-
-        //public override AbstractShape GetAbstractShape()
+        // Следующим способом не получается, т.к.:
+        // 1) При десериализации получаем cross == null.
+        // 2) Аналогично при десериализации, если указать полю private Cross cross атрибут DataMember.
+        // 3) Это можно было бы решить, используя метод с атрибутом OnDeserializing.
+        // 4) Однако этот метод должен быть в AbstractShape, т.к. это основной тип для JSON сериализации.
+        // 5) А метод с атрибутом OnDeserializing нельзя сделать виртуальным.
+        //[DataMember]
+        //public int X
+        //{            
+        //    get => this.cross.xPosition;
+        //    set => this.cross.xPosition = value;
+        //}
+        //[DataMember]
+        //public int Y
         //{
-        //    this.GraphicsPath = this.figure.GetPath();
-        //    this.Pen = new Pen(Color.Black, 1.0f);
-
-        //    this.PenWidth = 1.0f;
-        //    this.PenColor = Color.Black;
-        //    this.PenDashStyle = DashStyle.Solid;
-
-        //    this.X = ((Cross)this.figure).xPosition;
-        //    this.Y = ((Cross)this.figure).yPosition;
-
-        //    //return new AbstractShape(penWidth: 1.0f, penColor: Color.Black, penDashStyle: DashStyle.Solid);
+        //    get => this.cross.yPosition;
+        //    set => this.cross.yPosition = value;
         //}
     }
 }

@@ -7,8 +7,7 @@
     using System.IO;
     using System.Reflection;
     using System.Security.Permissions;
-    using System.Security.Policy;
-    using System.Windows.Forms;
+    using System.Security.Policy;    
 
     /// <summary>
     /// Used for plugins management.

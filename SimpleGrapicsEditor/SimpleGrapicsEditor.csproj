@@ -117,6 +117,10 @@
     <Folder Include="Plugins\ShapePlugins\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EugeneOwlAdapter\EugeneOwlAdapter.csproj">
+      <Project>{cdae3592-b5d5-4352-9dda-97f715ea0035}</Project>
+      <Name>EugeneOwlAdapter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FunctionalPluginBase\FunctionalPluginBase.csproj">
       <Project>{7cd2a68b-5969-4ee2-9a1e-6870f9304010}</Project>
       <Name>FunctionalPluginBase</Name>

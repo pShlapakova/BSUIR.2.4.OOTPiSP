@@ -164,7 +164,7 @@
             AbstractShape[] result = null;            
             using (MemoryStream ms = new MemoryStream(Encoding.Default.GetBytes(graph)))
             {
-                result = (AbstractShape[])jsonDeserializer.ReadObject(ms);
+                result = (AbstractShape[])jsonDeserializer.ReadObject(ms);                
             }
 
             return result;
