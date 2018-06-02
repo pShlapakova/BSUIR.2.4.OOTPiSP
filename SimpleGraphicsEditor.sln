@@ -3,13 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGrapicsEditor", "SimpleGrapicsEditor\SimpleGrapicsEditor.csproj", "{B5A0A37E-8E25-42D4-8E73-FDEF2ADD4C25}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C20D8630-67EC-4975-8469-4D8D998D67C3}"
-	ProjectSection(SolutionItems) = preProject
-		console.txt = console.txt
-		README.md = README.md
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGraphicsEditor", "SimpleGraphicsEditor\SimpleGraphicsEditor.csproj", "{B5A0A37E-8E25-42D4-8E73-FDEF2ADD4C25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapePluginBase", "ShapePluginBase\ShapePluginBase.csproj", "{7E117359-9D26-4C86-BA22-E150F9E76718}"
 EndProject
